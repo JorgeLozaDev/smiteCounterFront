@@ -1,9 +1,12 @@
 import "./App.css";
+import { Header } from "./common/Header/Header";
+import { Body } from "./pages/Body/Body";
 
 function App() {
   return (
     <>
-      <h1>Vite + React</h1>
+      <Header />
+      <Body />
     </>
   );
 }
