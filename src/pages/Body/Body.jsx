@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 export const Body = () => {
   return (
-    <div>Body</div>
-  )
-}
+    <Routes>
+      <Route path="*" element={<Navigate to="/" />}></Route>
+    </Routes>
+  );
+};
