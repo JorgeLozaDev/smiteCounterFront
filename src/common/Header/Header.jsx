@@ -1,14 +1,12 @@
-import React from "react";
-import { Navbar, Container, Nav, NavDropdown, Image } from "react-bootstrap";
+
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 
 export const Header = () => {
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
         <Container>
-          <Navbar.Brand href="/">
-            logo
-          </Navbar.Brand>
+          <Navbar.Brand href="/">logo</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
