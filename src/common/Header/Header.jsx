@@ -7,7 +7,7 @@ export const Header = () => {
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
         <Container>
           <Navbar.Brand href="/">
-            <Image src="../../../public/logo2.png" className="logo" fluid />
+            logo
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -15,7 +15,7 @@ export const Header = () => {
 
             <Nav>
               <NavDropdown title="Menú" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="/profile">Perfil</NavDropdown.Item>
+                <NavDropdown.Item href="/">Perfil</NavDropdown.Item>
 
                 <NavDropdown.Item href="/mettings">Citas</NavDropdown.Item>
                 <NavDropdown.Divider />
