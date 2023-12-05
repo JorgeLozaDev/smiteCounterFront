@@ -1,4 +1,3 @@
-
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 
 export const Header = () => {
@@ -12,23 +11,9 @@ export const Header = () => {
             <Nav className="me-auto"></Nav>
 
             <Nav>
-              <NavDropdown title="Menú" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="/">Perfil</NavDropdown.Item>
-
-                <NavDropdown.Item href="/mettings">Citas</NavDropdown.Item>
-                <NavDropdown.Divider />
-
-                <NavDropdown.Item href="/admin/listusers">
-                  Lista de usuarios
-                </NavDropdown.Item>
-
-                <NavDropdown.Item>Log out</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-
-            <Nav>
+              <Nav.Link href="/gods">Dioses</Nav.Link>
+              <Nav.Link href="/counter">Counters</Nav.Link>
               <Nav.Link href="/login">Login</Nav.Link>
-              <Nav.Link href="/singup">Singup</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
