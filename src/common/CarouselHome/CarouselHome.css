@@ -29,5 +29,9 @@
 }
 
 .customImgCarousel {
-  width: 20em;
+  width: 75%;
+}
+
+.customHeightItem{
+  min-height: calc(100vh - 56px);
 }
