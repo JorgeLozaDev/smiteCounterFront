@@ -2,18 +2,26 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --blanco: #fff;
+  --negro: #000;
+  --border-rad: 0.625rem;
+  --border-rad-big: 1.5625rem;
+  --gradient: linear-gradient(225deg, #18c8ff 14.89%, #933ffe 85.85%);
+}
+
+body {
+  background: var(--negro);
 }
 
 @media (prefers-color-scheme: light) {
   /* :root { */
-    /* color: #213547;
+  /* color: #213547;
     background-color: #ffffff; */
   /* } */
 }

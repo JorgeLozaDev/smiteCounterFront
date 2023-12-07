@@ -1,0 +1,24 @@
+.caja {
+  border-radius: var(--border-rad-big);
+  background: var(--black-black-12, #1a1b23);
+  margin: 4em auto;
+  color: var(--blanco);
+}
+
+.caja h2 {
+  font-size: 4em;
+}
+.caja div {
+  padding: 2em;
+}
+
+.caja a {
+  color: var(--blanco);
+}
+.caja img {
+  width: 20em;
+}
+
+.cajaTxtContentBlock {
+  text-align: right;
+}

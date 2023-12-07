@@ -1,0 +1,33 @@
+.customCarousel {
+  min-height: calc(100vh - 56px);
+  color: var(--blanco);
+}
+
+.customCarousel h2 {
+  font-size: 60px;
+}
+.customCarousel p {
+  font-size: 25px;
+}
+.customCarousel a {
+  color: var(--blanco);
+}
+.gradient {
+  background: var(--gradient);
+}
+
+.imgFondoCarousel {
+  background-repeat: no-repeat;
+}
+
+.contenidoCustomCarousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.customImgCarousel {
+  width: 20em;
+}
