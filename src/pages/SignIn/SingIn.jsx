@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { singInUser } from "../../services/apiCalls";
 
 export const SingIn = () => {
   const [signindata, setSinginData] = useState({
@@ -35,15 +38,44 @@ export const SingIn = () => {
     //     console.log(e.response.data);
     //     handleServerError(e);
     //   });
+    singInUser("user/addUser", signindata)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((e) => {
+        toast(e, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
     event.preventDefault();
   };
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
       <Container>
         <Row>
           <Col>
             <Form onSubmit={handlerSend} method="post">
-              
               <Input
                 placeholder={"Email"}
                 type={"email"}
