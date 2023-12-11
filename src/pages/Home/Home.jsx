@@ -2,6 +2,7 @@ import React from "react";
 import Carousel from "../../common/CarouselHome/CarouselHome";
 import { CustomContentBlock } from "../../common/CustomContentBlock/CustomContentBlock";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import { CustomCTA } from "../../common/CustomtCTA/CustomCTA";
 
 export const Home = () => {
   const commonBackground = "url('home/bg-carousel.png')";
@@ -50,6 +51,19 @@ export const Home = () => {
       },
     },
   ];
+
+  const customCTA = [
+    {
+      title: "asdsad",
+      text: "lorem kafkjaf kla faskfjhaskf aksdfh aklsfjhsakf asdfasf halsk jfsak fkahsdfkjahs fklhasdkfhasldfs da djfk asdkf",
+      bgImage: "gods/Amaterasu/Amaterasu5.png",
+      button: {
+        text: "Ver más",
+        link: "/slide1",
+      },
+      
+    },
+  ];
   return (
     <>
       <Carousel items={carouselItems} commonBackground={commonBackground} />
@@ -92,6 +106,8 @@ export const Home = () => {
           </Col>
         </Row>
       </Container>
+
+      <CustomCTA data={customCTA}/>
 
     </>
   );
