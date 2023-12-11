@@ -22,3 +22,9 @@
 .cajaTxtContentBlock {
   text-align: right;
 }
+
+@media (max-width: 580px) {
+  .caja img {
+    width: 10em;
+  } 
+}

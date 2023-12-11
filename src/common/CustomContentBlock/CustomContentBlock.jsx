@@ -7,8 +7,8 @@ export const CustomContentBlock = ({ data }) => {
   return (
     <Container className="caja">
       {data.map((item) => (
-          <Row key={id} className="align-items-center">
-            {/* {item.commonImage1 !="" && item.commonImage2!="" ? ():()} */}
+        <Row key={id} className="align-items-center">
+
           <Col md={8}>
             <img src={item.commonImage1} alt="" className="img-fluid" />
             <img src={item.commonImage2} alt="" className="img-fluid" />
