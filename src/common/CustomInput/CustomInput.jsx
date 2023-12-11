@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
-const Input = ({ placeholder, type, name, handler, value, disabled,max,min,className }) => {
+export const Input = ({ placeholder, type, name, handler, value, disabled,max,min,className }) => {
   const handleChange = (event) => {
     const { value } = event.target;
     handler(value, name);

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "../../common/CarouselHome/CarouselHome";
 import { CustomContentBlock } from "../../common/CustomContentBlock/CustomContentBlock";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { CustomCTA } from "../../common/CustomtCTA/CustomCTA";
 
 export const Home = () => {
+  const [dataSubcribeEmail, setDataSubcribeEmail] = useState({
+    emailSub: "",
+  });
   const commonBackground = "url('home/bg-carousel.png')";
   const dataCommonBlock = [
     {
@@ -33,8 +36,9 @@ export const Home = () => {
     {
       image: "",
       imagenContent: "gods/Achilles/Achilles1.png",
-      title: "Slide 2",
-      description: "Descripción del Slide 1",
+      title: "Bienvenido a nuestra web",
+      description:
+        "Espermos que te podamos ayudar en tu busqueda de información",
       button: {
         text: "Ver más",
         link: "/slide1",
@@ -43,8 +47,9 @@ export const Home = () => {
     {
       image: "",
       imagenContent: "gods/Agni/Agni1.png",
-      title: "Slide 3",
-      description: "Descripción del Slide 1",
+      title: "Bienvenido a nuestra web",
+      description:
+        "Espermos que te podamos ayudar en tu busqueda de información",
       button: {
         text: "Ver más",
         link: "/slide1",
@@ -52,6 +57,12 @@ export const Home = () => {
     },
   ];
 
+  const inputHandler = (value, name) => {
+    setDataSubcribeEmail((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   const customCTA = [
     {
       title: "asdsad",
@@ -60,10 +71,21 @@ export const Home = () => {
       button: {
         text: "Ver más",
         link: "/slide1",
+        type:"",
       },
-      
+      // input: {
+      //   placeholder: "Introduce tu email",
+      //   type: "email",
+      //   name: "emailSub",
+      //   handler: inputHandler,
+      // },
     },
   ];
+
+  useEffect(() => {
+    console.log(dataSubcribeEmail);
+  }, [dataSubcribeEmail]);
+
   return (
     <>
       <Carousel items={carouselItems} commonBackground={commonBackground} />
@@ -107,8 +129,7 @@ export const Home = () => {
         </Row>
       </Container>
 
-      <CustomCTA data={customCTA}/>
-
+      <CustomCTA data={customCTA} />
     </>
   );
 };
