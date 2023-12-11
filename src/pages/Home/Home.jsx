@@ -24,7 +24,7 @@ export const Home = () => {
   const carouselItems = [
     {
       image: "",
-      imagenContent: "gods/Rama/Rama.png",
+      imagenContent: "gods/Ah_Muzen_Cab/Ah_Muzen_Cab1.png",
       title: "Bienvenido a nuestra web",
       description:
         "Espermos que te podamos ayudar en tu busqueda de información",
