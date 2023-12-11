@@ -43,19 +43,7 @@ export const SingIn = () => {
         <Row>
           <Col>
             <Form onSubmit={handlerSend} method="post">
-              <Input
-                placeholder={"Nombre"}
-                type={"text"}
-                name={"name"}
-                handler={inputHandler}
-              />
-
-              <Input
-                placeholder={"Apellidos"}
-                type={"text"}
-                name={"lastname"}
-                handler={inputHandler}
-              />
+              
               <Input
                 placeholder={"Email"}
                 type={"email"}
