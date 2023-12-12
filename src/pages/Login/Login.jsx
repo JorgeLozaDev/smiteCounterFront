@@ -27,11 +27,14 @@ export const Login = () => {
 
     loginUser("user/login", logindata)
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         Toasty({
           message: `Datos correctos ...logueando`,
           type: "success",
         });
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
       })
       .catch((error) => {
         // Manejar el error de Axios
@@ -64,9 +67,9 @@ export const Login = () => {
     }));
   };
 
-  const redirectSingIn=()=>{
-    navigate("/singin")
-  }
+  const redirectSingIn = () => {
+    navigate("/singin");
+  };
 
   return (
     <>
@@ -92,7 +95,9 @@ export const Login = () => {
                 Enviar
               </Button>
             </Form>
-            <p>No tienes cuenta <a onClick={redirectSingIn}>create una!</a> </p>
+            <p>
+              No tienes cuenta <a onClick={redirectSingIn}>create una!</a>{" "}
+            </p>
           </Col>
         </Row>
       </Container>
