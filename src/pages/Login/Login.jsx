@@ -5,7 +5,7 @@ import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
 import Input from "../../common/CustomInput/CustomInput";
 import { loginUser } from "../../services/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../userSlice";
+import { login, userDetails } from "../userSlice";
 
 export const Login = () => {
   const [logindata, setLoginData] = useState({
@@ -14,7 +14,7 @@ export const Login = () => {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = useSelector();
+  const token = useSelector(userDetails);
 
   const handlerSend = (event) => {
     event.preventDefault();

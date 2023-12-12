@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
 import { singInUser } from "../../services/apiCalls";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
 import { useNavigate } from "react-router-dom";
+import { userDetails } from "../userSlice";
+import { useSelector } from "react-redux";
 
 export const SingIn = () => {
   const [signindata, setSinginData] = useState({
@@ -13,6 +15,7 @@ export const SingIn = () => {
     birthday: "",
   });
   const navigate = useNavigate();
+  const token = useSelector(userDetails);
 
   const inputHandler = (value, name) => {
     setSinginData((prevData) => ({
@@ -68,6 +71,12 @@ export const SingIn = () => {
         }
       });
   };
+
+  useEffect(() => {
+    if (token.credentials != "") {
+      navigate("/profile");
+    }
+  }, []);
 
   return (
     <>
