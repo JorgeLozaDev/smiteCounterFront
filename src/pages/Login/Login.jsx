@@ -3,6 +3,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
 import Input from "../../common/CustomInput/CustomInput";
+import { loginUser } from "../../services/apiCalls";
 
 export const Login = () => {
   const [logindata, setLoginData] = useState({
@@ -24,7 +25,36 @@ export const Login = () => {
       return;
     }
 
-    
+    loginUser("user/login", logindata)
+      .then((data) => {
+        console.log(data)
+        Toasty({
+          message: `Datos correctos ...logueando`,
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        // Manejar el error de Axios
+        if (error.response) {
+          // El servidor respondió con un código de estado diferente de 2xx
+          Toasty({
+            message: `Error: ${error.response.status} - ${error.response.data.message}`,
+            type: "error",
+          });
+        } else if (error.request) {
+          // La solicitud fue hecha, pero no se recibió una respuesta
+          Toasty({
+            message: "No se recibió respuesta del servidor",
+            type: "error",
+          });
+        } else {
+          // Algo sucedió al configurar la solicitud que desencadenó un error
+          Toasty({
+            message: "Error al configurar la solicitud",
+            type: "error",
+          });
+        }
+      });
   };
 
   const inputHandler = (value, name) => {
@@ -33,6 +63,10 @@ export const Login = () => {
       [name]: value,
     }));
   };
+
+  const redirectSingIn=()=>{
+    navigate("/singin")
+  }
 
   return (
     <>
@@ -58,6 +92,7 @@ export const Login = () => {
                 Enviar
               </Button>
             </Form>
+            <p>No tienes cuenta <a onClick={redirectSingIn}>create una!</a> </p>
           </Col>
         </Row>
       </Container>
