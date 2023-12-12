@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
 import Input from "../../common/CustomInput/CustomInput";
 import { loginUser } from "../../services/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../userSlice";
 
 export const Login = () => {
   const [logindata, setLoginData] = useState({
@@ -11,6 +13,8 @@ export const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = useSelector();
 
   const handlerSend = (event) => {
     event.preventDefault();
@@ -27,11 +31,13 @@ export const Login = () => {
 
     loginUser("user/login", logindata)
       .then((data) => {
-        // console.log(data)
         Toasty({
           message: `Datos correctos ...logueando`,
           type: "success",
         });
+
+        dispatch(login({ credentials: data.data.token }));
+
         setTimeout(() => {
           navigate("/");
         }, 2500);
@@ -59,6 +65,12 @@ export const Login = () => {
         }
       });
   };
+
+  useEffect(() => {
+    if (token.credentials != "") {
+      navigate("/profile");
+    }
+  }, []);
 
   const inputHandler = (value, name) => {
     setLoginData((prevData) => ({
