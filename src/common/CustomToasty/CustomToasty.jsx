@@ -1,4 +1,3 @@
-// src/common/toasty/Toasty.js
 import React from "react";
 import { toast, ToastContainer as BaseToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,15 +5,14 @@ import "react-toastify/dist/ReactToastify.css";
 // Componente para mostrar tostadas
 const Toasty = ({ message, type = "default", options }) => {
   const toastOptions = {
-    position: "top-right",
+    position: "top-center",
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "light",
-    ...options,
+    theme: "dark",
   };
 
   const showToast = () => {
@@ -46,7 +44,7 @@ const Toasty = ({ message, type = "default", options }) => {
 const ToastContainer = () => {
   return (
     <BaseToastContainer
-      position="top-right"
+      position="top-center"
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}
@@ -55,7 +53,7 @@ const ToastContainer = () => {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="light"
+      theme="dark"
     />
   );
 };
