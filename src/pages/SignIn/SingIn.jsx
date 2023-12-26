@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
-import { singInUser } from "../../services/apiCalls";
+import { loginUser, singInUser } from "../../services/apiCalls";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
 import { useNavigate } from "react-router-dom";
-import { userDetails } from "../userSlice";
-import { useSelector } from "react-redux";
+import { login, userDetails } from "../userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const SingIn = () => {
   const [signindata, setSinginData] = useState({
@@ -16,6 +16,7 @@ export const SingIn = () => {
   });
   const navigate = useNavigate();
   const token = useSelector(userDetails);
+  const dispatch = useDispatch();
 
   const inputHandler = (value, name) => {
     setSinginData((prevData) => ({
@@ -40,13 +41,40 @@ export const SingIn = () => {
 
     singInUser("user/addUser", signindata)
       .then((data) => {
-        Toasty({
-          message: `${data.data.message} ...logueando`,
-          type: "success",
-        });
-        setTimeout(() => {
-          navigate("/login");
-        }, 3500);
+        loginUser("user/login", signindata)
+          .then((dat) => {
+            Toasty({
+              message: `${data.data.message} ...logueando`,
+              type: "success",
+            });
+
+            dispatch(login({ credentials: dat.data.token }));
+            setTimeout(() => {
+              navigate("/profile");
+            }, 3500);
+          })
+          .catch((error) => {
+            // Manejar el error de Axios
+            if (error.response) {
+              // El servidor respondió con un código de estado diferente de 2xx
+              Toasty({
+                message: `Error: ${error.response.status} - ${error.response.data.message}`,
+                type: "error",
+              });
+            } else if (error.request) {
+              // La solicitud fue hecha, pero no se recibió una respuesta
+              Toasty({
+                message: "No se recibió respuesta del servidor",
+                type: "error",
+              });
+            } else {
+              // Algo sucedió al configurar la solicitud que desencadenó un error
+              Toasty({
+                message: "Error al configurar la solicitud",
+                type: "error",
+              });
+            }
+          });
       })
       .catch((error) => {
         // Manejar el error de Axios
