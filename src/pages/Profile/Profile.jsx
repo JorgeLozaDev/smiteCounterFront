@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Col, Nav, Row, Tab } from "react-bootstrap";
+import { Col, Nav, Row, Tab, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
@@ -36,7 +36,7 @@ export const Profile = () => {
               <Tab.Pane eventKey="first">
                 <DataProfile />{" "}
               </Tab.Pane>
-              <Tab.Pane eventKey="second">Second tab content</Tab.Pane>
+              <Tab.Pane eventKey="second"> <Button onClick={()=>{navigate("/")}}> Agregar lista</Button> </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
