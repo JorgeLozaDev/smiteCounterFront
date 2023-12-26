@@ -20,4 +20,3 @@ export const profileUser = async (endpoint, token) => {
   });
   return dataUser;
 };
-e
