@@ -79,21 +79,7 @@ const DataProfile = () => {
               handler={handleChange}
               disabled={true}
             />
-            <Input
-              placeholder={"Nombre"}
-              type={"text"}
-              name={"name"}
-              value={userData.name}
-              handler={handleChange}
-            />
 
-            <Input
-              placeholder={"Apellidos"}
-              type={"text"}
-              name={"lastname"}
-              value={userData.lastname}
-              handler={handleChange}
-            />
             <Input
               placeholder={"Nombre de usuario"}
               type={"text"}
@@ -114,10 +100,8 @@ const DataProfile = () => {
               </Button>
             </p>
           </Form>
-        ) : userData.name ? (
+        ) : userData.email ? (
           <div className="box">
-            <p>Nombre: {userData.name}</p>
-            <p>Apellidos: {userData.lastname}</p>
             <p>Email: {userData.email}</p>
             <p>Nombre de usuario: {userData.username}</p>
             <p>Fecha de cumpleaños: {formatDateTime(userData.birthday)}</p>
