@@ -1,6 +1,16 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { logout } from "../../pages/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handlerLogOut = () => {
+    dispatch(logout({ credentials: "" }));
+    navigate("/");
+  };
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
@@ -14,6 +24,8 @@ export const Header = () => {
               <Nav.Link href="/gods">Dioses</Nav.Link>
               <Nav.Link href="/counter">Counters</Nav.Link>
               <Nav.Link href="/login">Login</Nav.Link>
+              <Nav.Link href="/profile">Profile</Nav.Link>
+              <Nav.Link onClick={handlerLogOut}>Log out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
