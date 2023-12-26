@@ -11,3 +11,13 @@ export const loginUser = async (endpoint, data) => {
   const login = await axios.post(`${URL}${endpoint}`, data);
   return login;
 };
+
+export const profileUser = async (endpoint, token) => {
+  const dataUser = await axios.get(`${URL}${endpoint}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return dataUser;
+};
+e
