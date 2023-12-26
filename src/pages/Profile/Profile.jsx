@@ -36,7 +36,7 @@ export const Profile = () => {
               <Tab.Pane eventKey="first">
                 <DataProfile />{" "}
               </Tab.Pane>
-              <Tab.Pane eventKey="second"> <Button onClick={()=>{navigate("/")}}> Agregar lista</Button> </Tab.Pane>
+              <Tab.Pane eventKey="second"> <Button onClick={()=>{navigate("/createList")}}> Agregar lista</Button> </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>

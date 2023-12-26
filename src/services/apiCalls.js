@@ -27,11 +27,17 @@ export const updateProfile = async (endpoint, token, data) => {
     username: data.username,
     birthday: data.birthday,
   };
-  // console.log(info)
   const headers = {
     Authorization: "Bearer " + token.credentials,
   };
 
   const updateUser = await axios.put(`${URL}${endpoint}`, info, { headers });
   return updateUser;
+};
+
+// ========== GODS ==========
+
+export const allGodsActives = async (endpoint) => {
+  const dataUser = await axios.get(`${URL}${endpoint}`);
+  return dataUser;
 };

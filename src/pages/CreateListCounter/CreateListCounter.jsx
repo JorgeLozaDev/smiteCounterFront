@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { userDetails } from "../userSlice";
+import { useNavigate } from "react-router-dom";
 
 const CreateListCounter = () => {
-  return (
-    <div>CreateListCounter</div>
-  )
-}
+  const token = useSelector(userDetails);
+  const navigate = useNavigate();
 
-export default CreateListCounter
+  useEffect(() => {
+    if (token.credentials == "") {
+      navigate("/");
+    }
+
+    
+  }, []);
+
+  return <div>CreateListCounter</div>;
+};
+
+export default CreateListCounter;
