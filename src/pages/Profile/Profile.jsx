@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import DataProfile from "../DataProfile/DataProfile";
+import { ToastContainer } from "../../common/CustomToasty/CustomToasty";
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export const Profile = () => {
 
   return (
     <>
+      <ToastContainer />
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
         <Row>
           <Col sm={3}>

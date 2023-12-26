@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
-import { profileUser } from "../../services/apiCalls";
+import { profileUser, updateProfile } from "../../services/apiCalls";
 import { Button, Container, Form } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
+import { Toasty } from "../../common/CustomToasty/CustomToasty";
 
 const DataProfile = () => {
   const [userData, setUserData] = useState({});
@@ -22,8 +23,27 @@ const DataProfile = () => {
       .then((e) => {
         setUserData(e.data);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        // Manejar el error de Axios
+        if (error.response) {
+          // El servidor respondió con un código de estado diferente de 2xx
+          Toasty({
+            message: `Error: ${error.response.status} - ${error.response.data.message}`,
+            type: "error",
+          });
+        } else if (error.request) {
+          // La solicitud fue hecha, pero no se recibió una respuesta
+          Toasty({
+            message: "No se recibió respuesta del servidor",
+            type: "error",
+          });
+        } else {
+          // Algo sucedió al configurar la solicitud que desencadenó un error
+          Toasty({
+            message: "Error al configurar la solicitud",
+            type: "error",
+          });
+        }
       });
   }, []);
 
@@ -45,13 +65,37 @@ const DataProfile = () => {
   };
 
   const handlerSubmit = (event) => {
-    // updateProfile("user/updateProfile", token, userData)
-    //   .then((dat) => {
-    //     setEdit(false);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e.response);
-    //   });
+    updateProfile("user/updateProfile", token, userData)
+      .then((dat) => {
+          Toasty({
+            message: dat.data.message,
+            type: "success",
+          });
+          
+        setEdit(false);
+      })
+      .catch((error) => {
+        // Manejar el error de Axios
+        if (error.response) {
+          // El servidor respondió con un código de estado diferente de 2xx
+          Toasty({
+            message: `Error: ${error.response.status} - ${error.response.data.message}`,
+            type: "error",
+          });
+        } else if (error.request) {
+          // La solicitud fue hecha, pero no se recibió una respuesta
+          Toasty({
+            message: "No se recibió respuesta del servidor",
+            type: "error",
+          });
+        } else {
+          // Algo sucedió al configurar la solicitud que desencadenó un error
+          Toasty({
+            message: "Error al configurar la solicitud",
+            type: "error",
+          });
+        }
+      });
     event.preventDefault();
   };
 
@@ -68,6 +112,7 @@ const DataProfile = () => {
 
   return (
     <>
+      
       <Container fluid className="contenido dataProfile">
         {edit ? (
           <Form onSubmit={handlerSubmit} method="post">
