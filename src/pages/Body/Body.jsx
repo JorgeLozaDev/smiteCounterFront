@@ -3,6 +3,7 @@ import { Home } from "../Home/Home";
 import { Login } from "../Login/Login";
 import { SingIn } from "../SignIn/SingIn";
 import { Profile } from "../Profile/Profile";
+import CreateListCounter from "../CreateListCounter/CreateListCounter";
 
 export const Body = () => {
   return (
@@ -12,6 +13,7 @@ export const Body = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/singin" element={<SingIn />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/createList" element={<CreateListCounter />} />
     </Routes>
   );
 };
