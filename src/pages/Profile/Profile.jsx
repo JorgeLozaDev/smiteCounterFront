@@ -3,6 +3,7 @@ import { Col, Nav, Row, Tab } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
+import DataProfile from "../DataProfile/DataProfile";
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -30,7 +31,9 @@ export const Profile = () => {
           </Col>
           <Col sm={9}>
             <Tab.Content>
-              <Tab.Pane eventKey="first">First tab content</Tab.Pane>
+              <Tab.Pane eventKey="first">
+                <DataProfile />{" "}
+              </Tab.Pane>
               <Tab.Pane eventKey="second">Second tab content</Tab.Pane>
             </Tab.Content>
           </Col>
