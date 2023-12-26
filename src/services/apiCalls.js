@@ -20,3 +20,18 @@ export const profileUser = async (endpoint, token) => {
   });
   return dataUser;
 };
+
+export const updateProfile = async (endpoint, token, data) => {
+  const info = {
+    email: data.email,
+    username: data.username,
+    birthday: data.birthday,
+  };
+  // console.log(info)
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+
+  const updateUser = await axios.put(`${URL}${endpoint}`, info, { headers });
+  return updateUser;
+};
