@@ -41,8 +41,14 @@ export const allGodsActives = async (endpoint) => {
   const allGods = await axios.get(`${URL}${endpoint}`);
   return allGods;
 };
+
 export const filterGodsActives = async (endpoint, data) => {
   const filterGods = await axios.post(`${URL}${endpoint}`, data);
 
   return filterGods;
+};
+
+export const godsDetails = async (endpoint, id) => {
+  const godDetails = await axios.get(`${URL}${endpoint}` + id);
+  return godDetails;
 };
