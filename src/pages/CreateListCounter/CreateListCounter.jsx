@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userDetails } from "../userSlice";
 import { useNavigate } from "react-router-dom";
@@ -31,11 +31,11 @@ const CreateListCounter = () => {
     if (!result.destination) {
       return;
     }
-  
+
     const sourceList = result.source.droppableId;
     const destinationList = result.destination.droppableId;
     const movedGod = gods1[result.source.index];
-  
+
     if (sourceList === destinationList) {
       // Mover dentro de la misma lista
       const reorderedList = Array.from(gods1);
@@ -68,7 +68,7 @@ const CreateListCounter = () => {
         setGods1((prevGods1) =>
           prevGods1.filter((_, index) => index !== result.source.index)
         );
-  
+
         // Verificar si ya está en la Lista 2 antes de agregar
         if (!gods2.includes(movedGod)) {
           setGods2((prevGods2) => [movedGod, ...prevGods2]);
@@ -76,8 +76,6 @@ const CreateListCounter = () => {
       }
     }
   };
-  
-
 
   const grid = 5;
 
