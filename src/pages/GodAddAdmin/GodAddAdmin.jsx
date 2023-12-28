@@ -1,9 +1,5 @@
-
-
 const GodAddAdmin = () => {
-  return (
-    <div>GodAddAdmin</div>
-  )
-}
+  return <div>GodAddAdmin</div>;
+};
 
-export default GodAddAdmin
+export default GodAddAdmin;
