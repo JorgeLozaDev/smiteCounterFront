@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { allGodsActives, filterGodsActives } from "../../services/apiCalls";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
+import "./Gods.css";
+import { useDispatch } from "react-redux";
 
 const Gods = () => {
   const [gods, setGods] = useState([]);
-
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [filter, setFilter] = useState({
@@ -41,7 +43,6 @@ const Gods = () => {
       .catch((error) => {
         console.log(error);
       });
-    console.log(filter);
   }, [filter]);
 
   const inputHandler = (value, name) => {
@@ -49,6 +50,11 @@ const Gods = () => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleDetailGod = (e) => {
+    dispatch(detailMettingId({ idMetting: e.target.value }));
+    navigate("/metting/details");
   };
 
   return (
@@ -120,9 +126,10 @@ const Gods = () => {
       </Row>
       <Row>
         {gods.length > 0 ? (
-          <div>
+          <div className="gridGods">
             {gods.map((god) => (
               <div key={god._id}>
+                <img src={god.images.card} />
                 <p>{god.name}</p>
               </div>
             ))}
