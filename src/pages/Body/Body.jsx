@@ -5,6 +5,7 @@ import { SingIn } from "../SignIn/SingIn";
 import { Profile } from "../Profile/Profile";
 import CreateListCounter from "../CreateListCounter/CreateListCounter";
 import Gods from "../Gods/Gods";
+import GodDetails from "../GodDetails/GodDetails";
 
 export const Body = () => {
   return (
@@ -16,6 +17,7 @@ export const Body = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/createList" element={<CreateListCounter />} />
       <Route path="/gods" element={<Gods />} />
+      <Route path="/god/details" element={<GodDetails />} />
     </Routes>
   );
 };

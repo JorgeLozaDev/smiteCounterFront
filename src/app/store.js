@@ -4,10 +4,12 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 import userSlice from "../pages/userSlice";
+import godSlice from "../pages/godSlice";
 
 
 const reducers = combineReducers({
   user: userSlice,
+  god: godSlice,
   
 });
 

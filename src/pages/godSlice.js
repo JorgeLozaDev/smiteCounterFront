@@ -24,5 +24,5 @@ export const godSlice = createSlice({
 });
 
 export const { saveId, deleteId } = godSlice.actions;
-export const godDetails = (state) => state.user;
+export const godDetails = (state) => state.god;
 export default godSlice.reducer;

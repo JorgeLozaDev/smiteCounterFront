@@ -1,9 +1,15 @@
-
+import { useSelector } from "react-redux";
+import { godDetails } from "../godSlice";
+import { useEffect } from "react";
 
 const GodDetails = () => {
-  return (
-    <div>GodDetails</div>
-  )
-}
+  const idGod = useSelector(godDetails);
 
-export default GodDetails
+  useEffect(() => {
+    console.log(idGod);
+  }, []);
+
+  return <div>GodDetails</div>;
+};
+
+export default GodDetails;

@@ -55,8 +55,10 @@ const Gods = () => {
     }));
   };
 
-  const handleDetailGod = (e) => {
-    dispatch(saveId({ idMetting: e.target.value }));
+  const handleDetailGod = (godId) => {
+    dispatch(saveId({ id: godId }));
+    // console.log(godId);
+    
     navigate("/god/details");
   };
 
@@ -131,15 +133,12 @@ const Gods = () => {
         {gods.length > 0 ? (
           <div className="gridGods">
             {gods.map((god) => (
-              <div
-                key={god._id}
-                onClick={(e) => handleDetailGod(e)}
-                value={god._id}
-                
-              >
-                <img src={god.images.card} />
-                <p>{god.name}</p>
-              </div>
+              <a key={god._id}  onClick={() => handleDetailGod(god._id)}>
+                <div >
+                  <img src={god.images.card} />
+                  <p>{god.name}</p>
+                </div>
+              </a>
             ))}
           </div>
         ) : (
