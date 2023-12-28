@@ -4,6 +4,7 @@ import { userDetails } from "../userSlice";
 import { useNavigate } from "react-router-dom";
 import { allGodsActives } from "../../services/apiCalls";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Col, Container, Row } from "react-bootstrap";
 import "./CreateListCounter.css";
 
 const CreateListCounter = () => {
@@ -30,34 +31,55 @@ const CreateListCounter = () => {
     if (!result.destination) {
       return;
     }
-
+  
     const sourceList = result.source.droppableId;
     const destinationList = result.destination.droppableId;
-
+    const movedGod = gods1[result.source.index];
+  
     if (sourceList === destinationList) {
-      // Si el elemento se movió dentro de la misma lista
-      const reorderedList = Array.from(sourceList === "gods1" ? gods1 : gods2);
-      const [movedGod] = reorderedList.splice(result.source.index, 1);
+      // Mover dentro de la misma lista
+      const reorderedList = Array.from(gods1);
+      reorderedList.splice(result.source.index, 1);
       reorderedList.splice(result.destination.index, 0, movedGod);
-
-      if (sourceList === "gods1") {
-        setGods1(reorderedList);
-      } else {
-        setGods2(reorderedList);
-      }
+      setGods1(reorderedList);
     } else {
-      // Si el elemento se movió entre listas
-      const sourceListItems = Array.from(sourceList === "gods1" ? gods1 : gods2);
-      const destinationListItems = Array.from(destinationList === "gods1" ? gods1 : gods2);
-      const [movedGod] = sourceListItems.splice(result.source.index, 1);
-      destinationListItems.splice(result.destination.index, 0, movedGod);
-
-      setGods1(sourceList === "gods1" ? sourceListItems : destinationListItems);
-      setGods2(destinationList === "gods1" ? sourceListItems : destinationListItems);
+      // Mover entre listas
+      if (destinationList === "gods2" && gods2.length > 0) {
+        // Lista 2 solo puede tener un elemento
+        if (!gods1.includes(movedGod)) {
+          setGods1((prevGods1) => [...prevGods1, movedGod]);
+        }
+      } else if (destinationList === "gods1" && gods1.length > 1) {
+        // Lista 1 puede tener más de un elemento
+        setGods2((prevGods2) => prevGods2.filter((god) => god !== movedGod));
+        setGods1((prevGods1) => {
+          const indexToInsert = Math.min(
+            result.destination.index,
+            prevGods1.length - 1
+          );
+          return [
+            ...prevGods1.slice(0, indexToInsert),
+            movedGod,
+            ...prevGods1.slice(indexToInsert),
+          ];
+        });
+      } else {
+        // Eliminar de la Lista 1 y agregar a la Lista 2
+        setGods1((prevGods1) =>
+          prevGods1.filter((_, index) => index !== result.source.index)
+        );
+  
+        // Verificar si ya está en la Lista 2 antes de agregar
+        if (!gods2.includes(movedGod)) {
+          setGods2((prevGods2) => [movedGod, ...prevGods2]);
+        }
+      }
     }
   };
+  
 
-  const grid = 10;
+
+  const grid = 5;
 
   const getItemStyle = (isDragging, draggableStyle, fondo) => ({
     userSelect: "none",
@@ -69,91 +91,119 @@ const CreateListCounter = () => {
 
   const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? "lightblue" : "lightgrey",
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, 9em)",
     padding: grid,
     overflow: "auto",
+    width: "100%",
+    gap: "1em",
   });
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div style={{ display: "flex" }}>
-        {/* Lista 1 */}
-        <Droppable droppableId="gods1" direction="horizontal">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {gods1.map((element, index) => (
-                <Draggable key={element._id} draggableId={element._id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className="dragGods"
-                      style={{
-                        ...getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style,
-                          `url(${element.images.card})`
-                        ),
-                        backgroundImage: `url(${element.images.card})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center top",
-                        backgroundRepeat: "no-repeat",
-                      }}
-                    >
-                      <p>{element.name}</p>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+    <>
+      <Container>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {/* Lista 1 */}
+          <Row>
+            <Col md={12}>
+              <Droppable droppableId="gods1" direction="horizontal">
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                  >
+                    {gods1.map((element, index) => (
+                      <Draggable
+                        key={element._id}
+                        draggableId={element._id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="dragGods"
+                            style={{
+                              ...getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style,
+                                `url(${element.images.card})`
+                              ),
+                              backgroundImage: `url(${element.images.card})`,
+                              backgroundSize: "cover",
+                              backgroundPosition: "center top",
+                              backgroundRepeat: "no-repeat",
+                            }}
+                          >
+                            <p>{element.name}</p>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Col>
+          </Row>
 
-        {/* Lista 2 */}
-        <Droppable droppableId="gods2" direction="horizontal">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {gods2.map((element, index) => (
-                <Draggable key={element._id} draggableId={element._id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className="dragGods"
-                      style={{
-                        ...getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style,
-                          `url(${element.images.card})`
-                        ),
-                        backgroundImage: `url(${element.images.card})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center top",
-                        backgroundRepeat: "no-repeat",
-                      }}
-                    >
-                      <p>{element.name}</p>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
-    </DragDropContext>
+          {/* Lista 2 y Lista 3 en la misma Row */}
+          <Row>
+            {/* Lista 2 */}
+            <Col md={3}>
+              <Droppable droppableId="gods2" direction="horizontal">
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                  >
+                    {gods2.map((element, index) => (
+                      <Draggable
+                        key={element._id}
+                        draggableId={element._id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="dragGods"
+                            style={{
+                              ...getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style,
+                                `url(${element.images.card})`
+                              ),
+                              backgroundImage: `url(${element.images.card})`,
+                              backgroundSize: "cover",
+                              backgroundPosition: "center top",
+                              backgroundRepeat: "no-repeat",
+                            }}
+                          >
+                            <p>{element.name}</p>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Col>
+
+            {/* Lista 3 */}
+            <Col md={9}>
+              {/* Aquí puedes implementar la Lista 3 según tus necesidades */}
+              {/* Actualmente no tiene restricciones de cantidad de elementos */}
+            </Col>
+          </Row>
+        </DragDropContext>
+      </Container>
+    </>
   );
 };
 
