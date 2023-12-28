@@ -38,6 +38,11 @@ export const updateProfile = async (endpoint, token, data) => {
 // ========== GODS ==========
 
 export const allGodsActives = async (endpoint) => {
-  const dataUser = await axios.get(`${URL}${endpoint}`);
-  return dataUser;
+  const allGods = await axios.get(`${URL}${endpoint}`);
+  return allGods;
+};
+export const filterGodsActives = async (endpoint, data) => {
+  const filterGods = await axios.post(`${URL}${endpoint}`, data);
+
+  return filterGods;
 };
