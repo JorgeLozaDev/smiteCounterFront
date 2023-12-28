@@ -3,3 +3,6 @@
   gap: 1em;
   flex-wrap: wrap;
 }
+.gridGods div {
+  cursor: pointer;
+}

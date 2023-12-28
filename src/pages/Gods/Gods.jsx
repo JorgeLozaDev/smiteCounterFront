@@ -5,12 +5,15 @@ import Input from "../../common/CustomInput/CustomInput";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
 import "./Gods.css";
 import { useDispatch } from "react-redux";
+import { godDetails, saveId } from "../godSlice";
+import { useNavigate } from "react-router-dom";
 
 const Gods = () => {
   const [gods, setGods] = useState([]);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(godDetails);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const navigate = useNavigate();
   const [filter, setFilter] = useState({
     pantheon: "",
     role: "",
@@ -53,8 +56,8 @@ const Gods = () => {
   };
 
   const handleDetailGod = (e) => {
-    dispatch(detailMettingId({ idMetting: e.target.value }));
-    navigate("/metting/details");
+    dispatch(saveId({ idMetting: e.target.value }));
+    navigate("/god/details");
   };
 
   return (
@@ -128,7 +131,12 @@ const Gods = () => {
         {gods.length > 0 ? (
           <div className="gridGods">
             {gods.map((god) => (
-              <div key={god._id}>
+              <div
+                key={god._id}
+                onClick={(e) => handleDetailGod(e)}
+                value={god._id}
+                
+              >
                 <img src={god.images.card} />
                 <p>{god.name}</p>
               </div>
