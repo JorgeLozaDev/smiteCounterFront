@@ -44,11 +44,15 @@ export const allGodsActives = async (endpoint) => {
 
 export const filterGodsActives = async (endpoint, data) => {
   const filterGods = await axios.post(`${URL}${endpoint}`, data);
-
   return filterGods;
 };
 
 export const godsDetails = async (endpoint, id) => {
   const godDetails = await axios.get(`${URL}${endpoint}` + id);
   return godDetails;
+};
+
+export const addGod = async (endpoint, data) => {
+  const addGod = await axios.post(`${URL}${endpoint}`, data);
+  return addGod;
 };
