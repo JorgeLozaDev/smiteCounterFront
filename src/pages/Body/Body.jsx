@@ -8,6 +8,7 @@ import Gods from "../Gods/Gods";
 import GodDetails from "../GodDetails/GodDetails";
 import GodAddAdmin from "../GodAddAdmin/GodAddAdmin";
 import ListGodsAdmin from "../ListGodsAdmin/ListGodsAdmin";
+import GodEditAdmin from "../GodEditAdmin/GodEditAdmin";
 
 export const Body = () => {
   return (
@@ -22,6 +23,7 @@ export const Body = () => {
       <Route path="/god/details" element={<GodDetails />} />
       <Route path="/addGod/" element={<GodAddAdmin />} />
       <Route path="/listGods/" element={<ListGodsAdmin />} />
+      <Route path="/editGod/" element={<GodEditAdmin />} />
     </Routes>
   );
 };
