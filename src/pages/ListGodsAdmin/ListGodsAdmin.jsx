@@ -54,9 +54,8 @@ const ListGodsAdmin = () => {
   };
 
   const handleEdit = (id) => {
-    // dispatch(saveId({ id: id }));
-    // console.log(id);
-    navigate("/editGod")
+    dispatch(saveId({ id: id }));
+    navigate("/editGod");
   };
 
   return (

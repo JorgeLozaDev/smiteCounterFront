@@ -27,7 +27,7 @@ export const Header = () => {
               <Nav.Link href="/profile">Profile</Nav.Link>
               <Nav.Link href="/addGod">Add god</Nav.Link>
               <Nav.Link href="/listGods">list gods</Nav.Link>
-              <Nav.Link href="/editGods">list gods</Nav.Link>
+              <Nav.Link href="/editGod">edit god</Nav.Link>
               <Nav.Link onClick={handlerLogOut}>Log out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
