@@ -6,6 +6,8 @@ import { jwtDecode } from "jwt-decode";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
+import { addGod } from "../../services/apiCalls";
+import { ToastContainer, Toasty } from "../../common/CustomToasty/CustomToasty";
 
 const GodAddAdmin = () => {
   const token = useSelector(userDetails);
@@ -34,9 +36,43 @@ const GodAddAdmin = () => {
     }
   }, []);
 
-  const handlerSend = () => {
+  const handlerSend = (event) => {
     event.preventDefault();
     console.log(formData);
+    addGod("gods/createGod", token, formData)
+      .then((data) => {
+        // console.log(data);
+        Toasty({
+          message: `Se ha guardado el dios correctamente`,
+          type: "success",
+        });
+        setTimeout(() => {
+          navigate("/profile");
+        }, 2500);
+      })
+      .catch((error) => {
+        // console.log(error);
+        // Manejar el error de Axios
+        if (error.response) {
+          // El servidor respondió con un código de estado diferente de 2xx
+          Toasty({
+            message: `Error: ${error.response.status} - ${error.response.data.message}`,
+            type: "error",
+          });
+        } else if (error.request) {
+          // La solicitud fue hecha, pero no se recibió una respuesta
+          Toasty({
+            message: "No se recibió respuesta del servidor",
+            type: "error",
+          });
+        } else {
+          // Algo sucedió al configurar la solicitud que desencadenó un error
+          Toasty({
+            message: "Error al configurar la solicitud",
+            type: "error",
+          });
+        }
+      });
   };
 
   const inputHandler = (value, name, index, detailIndex, subFieldName) => {
@@ -217,6 +253,7 @@ const GodAddAdmin = () => {
 
   return (
     <>
+      <ToastContainer />
       <Container>
         <Row>
           <Col>

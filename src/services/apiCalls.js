@@ -52,7 +52,10 @@ export const godsDetails = async (endpoint, id) => {
   return godDetails;
 };
 
-export const addGod = async (endpoint, data) => {
-  const addGod = await axios.post(`${URL}${endpoint}`, data);
+export const addGod = async (endpoint, token, data) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+  const addGod = await axios.post(`${URL}${endpoint}`, data, { headers });
   return addGod;
 };
