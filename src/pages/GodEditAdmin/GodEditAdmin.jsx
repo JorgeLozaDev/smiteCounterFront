@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
-import { addGod, godsDetails } from "../../services/apiCalls";
+import { UpdateGod, addGod, godsDetails } from "../../services/apiCalls";
 import { ToastContainer, Toasty } from "../../common/CustomToasty/CustomToasty";
 import { godDetails } from "../godSlice";
 
@@ -47,16 +47,15 @@ const GodEditAdmin = () => {
 
   const handlerSend = (event) => {
     event.preventDefault();
-    console.log(formData);
-    addGod("gods/createGod", token, formData)
+
+    UpdateGod("gods/updateGod/" + idGod.id, token, formData)
       .then((data) => {
-        // console.log(data);
         Toasty({
           message: `Se ha guardado el dios correctamente`,
           type: "success",
         });
         setTimeout(() => {
-          navigate("/profile");
+          navigate("/listGods");
         }, 2500);
       })
       .catch((error) => {
@@ -353,6 +352,7 @@ const GodEditAdmin = () => {
                   type="text"
                   placeholder="Ingrese la URL de la imagen principal"
                   onChange={(e) => handleImageUrlChange(e, "main")}
+                  value={formData.images.main}
                 />
               </Form.Group>
 
@@ -362,6 +362,7 @@ const GodEditAdmin = () => {
                   type="text"
                   placeholder="Ingrese la URL de la imagen de la tarjeta"
                   onChange={(e) => handleImageUrlChange(e, "card")}
+                  value={formData.images.card}
                 />
               </Form.Group>
 

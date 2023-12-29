@@ -77,3 +77,11 @@ export const DeleteGodLogic = async (endpoint, token, data) => {
   const god = await axios.put(`${URL}${endpoint}`, dat, { headers });
   return god;
 };
+export const UpdateGod = async (endpoint, token, data) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+  
+  const god = await axios.put(`${URL}${endpoint}`, data, { headers });
+  return god;
+};
