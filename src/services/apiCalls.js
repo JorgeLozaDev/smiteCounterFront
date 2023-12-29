@@ -41,6 +41,13 @@ export const allGodsActives = async (endpoint) => {
   const allGods = await axios.get(`${URL}${endpoint}`);
   return allGods;
 };
+export const allGods = async (endpoint, token) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+  const allGods = await axios.get(`${URL}${endpoint}`, { headers });
+  return allGods;
+};
 
 export const filterGodsActives = async (endpoint, data) => {
   const filterGods = await axios.post(`${URL}${endpoint}`, data);
@@ -58,4 +65,15 @@ export const addGod = async (endpoint, token, data) => {
   };
   const addGod = await axios.post(`${URL}${endpoint}`, data, { headers });
   return addGod;
+};
+
+export const DeleteGodLogic = async (endpoint, token, data) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+  const dat = {
+    isActive: data,
+  };
+  const god = await axios.put(`${URL}${endpoint}`, dat, { headers });
+  return god;
 };
