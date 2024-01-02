@@ -2,3 +2,7 @@
     width: 7em;
     height: 7em;
 }
+
+.test{
+    min-height: 10em;
+}

@@ -1,213 +1,132 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { userDetails } from "../userSlice";
-import { useNavigate } from "react-router-dom";
-import { allGodsActives } from "../../services/apiCalls";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Col, Container, Row } from "react-bootstrap";
-import "./CreateListCounter.css";
+// CreateListCounter.js
+import React from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const CreateListCounter = () => {
-  const [gods1, setGods1] = useState([]);
-  const [gods2, setGods2] = useState([]);
-  const token = useSelector(userDetails);
-  const navigate = useNavigate();
+  const initialItems = [
+    { id: 'item-1', content: 'Item 1' },
+    { id: 'item-2', content: 'Item 2' },
+    { id: 'item-3', content: 'Item 3' },
+    // ...add more items as needed
+  ];
 
-  useEffect(() => {
-    if (token.credentials === "") {
-      navigate("/");
-    }
-
-    allGodsActives("gods/allGodsActive")
-      .then((data) => {
-        setGods1(data.data.allGodsActive);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [token.credentials, navigate]);
+  const [items, setItems] = React.useState(initialItems);
+  const [rows, setRows] = React.useState([]);
 
   const onDragEnd = (result) => {
-    if (!result.destination) {
-      return;
-    }
+    if (!result.destination) return;
 
-    const sourceList = result.source.droppableId;
-    const destinationList = result.destination.droppableId;
-    const movedGod = gods1[result.source.index];
+    const updatedItems = Array.from(items);
+    const [movedItem] = updatedItems.splice(result.source.index, 1);
+    updatedItems.splice(result.destination.index, 0, movedItem);
 
-    if (sourceList === destinationList) {
-      // Mover dentro de la misma lista
-      const reorderedList = Array.from(gods1);
-      reorderedList.splice(result.source.index, 1);
-      reorderedList.splice(result.destination.index, 0, movedGod);
-      setGods1(reorderedList);
-    } else {
-      // Mover entre listas
-      if (destinationList === "gods2" && gods2.length > 0) {
-        // Lista 2 solo puede tener un elemento
-        if (!gods1.includes(movedGod)) {
-          setGods1((prevGods1) => [...prevGods1, movedGod]);
-        }
-      } else if (destinationList === "gods1" && gods1.length > 1) {
-        // Lista 1 puede tener más de un elemento
-        setGods2((prevGods2) => prevGods2.filter((god) => god !== movedGod));
-        setGods1((prevGods1) => {
-          const indexToInsert = Math.min(
-            result.destination.index,
-            prevGods1.length - 1
-          );
-          return [
-            ...prevGods1.slice(0, indexToInsert),
-            movedGod,
-            ...prevGods1.slice(indexToInsert),
-          ];
-        });
-      } else {
-        // Eliminar de la Lista 1 y agregar a la Lista 2
-        setGods1((prevGods1) =>
-          prevGods1.filter((_, index) => index !== result.source.index)
-        );
-
-        // Verificar si ya está en la Lista 2 antes de agregar
-        if (!gods2.includes(movedGod)) {
-          setGods2((prevGods2) => [movedGod, ...prevGods2]);
-        }
-      }
-    }
+    setItems(updatedItems);
   };
 
-  const grid = 5;
+  const addRow = () => {
+    const newRow = {
+      id: `row-${rows.length + 1}`,
+      columns: [
+        {
+          id: `col-1-${rows.length + 1}`,
+          items: [
+            { id: `item-col1-${rows.length + 1}-1`, content: 'Column 1 Item 1' },
+            { id: `item-col1-${rows.length + 1}-2`, content: 'Column 1 Item 2' },
+            // ...add more items for column 1 as needed
+          ],
+        },
+        {
+          id: `col-2-${rows.length + 1}`,
+          items: [
+            { id: `item-col2-${rows.length + 1}-1`, content: 'Column 2 Item 1' },
+            { id: `item-col2-${rows.length + 1}-2`, content: 'Column 2 Item 2' },
+            // ...add more items for column 2 as needed
+          ],
+        },
+      ],
+    };
 
-  const getItemStyle = (isDragging, draggableStyle, fondo) => ({
-    userSelect: "none",
-    padding: grid * 2,
-    margin: `0 ${grid}px 0 0`,
-    backgroundImage: isDragging ? fondo : "grey",
-    ...draggableStyle,
-  });
-
-  const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, 9em)",
-    padding: grid,
-    overflow: "auto",
-    width: "100%",
-    gap: "1em",
-  });
+    setRows((prevRows) => [...prevRows, newRow]);
+  };
 
   return (
-    <>
-      <Container
-        fluid
-        className="banner bannerGod"
-        style={{ backgroundImage: `url(general/bannerVs.png)` }}
-      ></Container>
-      
-      <Container className="py-5">
-        <DragDropContext onDragEnd={onDragEnd}>
-          {/* Lista 1 */}
-          <Row>
-            <Col md={12}>
-              <Droppable droppableId="gods1" direction="horizontal">
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
+    <div className="container">
+      <div className="row">
+        <div className="col-12">
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="list">
+              {(provided) => (
+                <ul
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="list-group"
+                >
+                  {items.map((item, index) => (
+                    <Draggable key={item.id} draggableId={item.id} index={index}>
+                      {(provided) => (
+                        <li
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="list-group-item"
+                        >
+                          {item.content}
+                        </li>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
+      </div>
+      <div className="row mt-3">
+        <div className="col-12">
+          <button className="btn btn-primary" onClick={addRow}>
+            Agregar Fila
+          </button>
+        </div>
+      </div>
+      {rows.map((row) => (
+        <div className="row mt-3" key={row.id}>
+          {row.columns.map((col) => (
+            <div className="col-md-6" key={col.id}>
+              <Droppable droppableId={col.id} key={col.id}>
+                {(provided) => (
+                  <ul
                     {...provided.droppableProps}
-                    style={getListStyle(snapshot.isDraggingOver)}
+                    ref={provided.innerRef}
+                    className="list-group"
                   >
-                    {gods1.map((element, index) => (
+                    {col.items.map((item, index) => (
                       <Draggable
-                        key={element._id}
-                        draggableId={element._id}
+                        key={item.id}
+                        draggableId={item.id}
                         index={index}
                       >
-                        {(provided, snapshot) => (
-                          <div
+                        {(provided) => (
+                          <li
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="dragGods"
-                            style={{
-                              ...getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style,
-                                `url(${element.images.card})`
-                              ),
-                              backgroundImage: `url(${element.images.card})`,
-                              backgroundSize: "cover",
-                              backgroundPosition: "center top",
-                              backgroundRepeat: "no-repeat",
-                            }}
+                            className="list-group-item"
                           >
-                            <p>{element.name}</p>
-                          </div>
+                            {item.content}
+                          </li>
                         )}
                       </Draggable>
                     ))}
                     {provided.placeholder}
-                  </div>
+                  </ul>
                 )}
               </Droppable>
-            </Col>
-          </Row>
-
-          {/* Lista 2 y Lista 3 en la misma Row */}
-          <Row>
-            {/* Lista 2 */}
-            <Col md={3}>
-              <Droppable droppableId="gods2" direction="horizontal">
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    style={getListStyle(snapshot.isDraggingOver)}
-                  >
-                    {gods2.map((element, index) => (
-                      <Draggable
-                        key={element._id}
-                        draggableId={element._id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className="dragGods"
-                            style={{
-                              ...getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style,
-                                `url(${element.images.card})`
-                              ),
-                              backgroundImage: `url(${element.images.card})`,
-                              backgroundSize: "cover",
-                              backgroundPosition: "center top",
-                              backgroundRepeat: "no-repeat",
-                            }}
-                          >
-                            <p>{element.name}</p>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </Col>
-
-            {/* Lista 3 */}
-            <Col md={9}>
-              {/* Aquí puedes implementar la Lista 3 según tus necesidades */}
-              {/* Actualmente no tiene restricciones de cantidad de elementos */}
-            </Col>
-          </Row>
-        </DragDropContext>
-      </Container>
-    </>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
   );
 };
 
