@@ -1,0 +1,12 @@
+.titleLogin {
+  color: var(--blanco);
+}
+
+p {
+  color: var(--blanco);
+}
+
+.linkSingup {
+  color: var(--azul);
+  cursor: pointer;
+}

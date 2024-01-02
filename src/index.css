@@ -10,6 +10,7 @@
   -moz-osx-font-smoothing: grayscale;
   --blanco: #fff;
   --negro: #000;
+  --azul: #1900fe;
   --border-rad: 0.625rem;
   --border-rad-big: 1.5625rem;
   --gradient: linear-gradient(225deg, #18c8ff 14.89%, #933ffe 85.85%);

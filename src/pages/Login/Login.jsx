@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
@@ -6,6 +6,7 @@ import Input from "../../common/CustomInput/CustomInput";
 import { loginUser } from "../../services/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { login, userDetails } from "../userSlice";
+import "./Login.css";
 
 export const Login = () => {
   const [logindata, setLoginData] = useState({
@@ -86,10 +87,10 @@ export const Login = () => {
   return (
     <>
       <ToastContainer />
-      <Container>
-        <Row>
+      <Container className="py-5">
+        <Row className="">
           <Col>
-            <h2>Login</h2>
+            <h2 className="titleLogin text-center">Login</h2>
             <Form onSubmit={handlerSend} method="post">
               <Input
                 placeholder={"Email"}
@@ -103,12 +104,17 @@ export const Login = () => {
                 name={"password"}
                 handler={inputHandler}
               />
-              <Button type="submit" variant="secondary">
-                Enviar
-              </Button>
+              <div className="text-center">
+                <Button type="submit" variant="secondary">
+                  Enviar
+                </Button>
+              </div>
             </Form>
-            <p>
-              No tienes cuenta <a onClick={redirectSingIn}>create una!</a>{" "}
+            <p className="py-3">
+              No tienes cuenta{" "}
+              <a className="linkSingup" onClick={redirectSingIn}>
+                create una!
+              </a>{" "}
             </p>
           </Col>
         </Row>
