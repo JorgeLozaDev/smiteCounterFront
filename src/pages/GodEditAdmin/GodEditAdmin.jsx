@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
-import { UpdateGod,  godsDetails } from "../../services/apiCalls";
+import { UpdateGod, godsDetails } from "../../services/apiCalls";
 import { ToastContainer, Toasty } from "../../common/CustomToasty/CustomToasty";
 import { godDetails } from "../godSlice";
 
@@ -325,28 +325,38 @@ const GodEditAdmin = () => {
                 onChange={(e) => inputHandler(e.target.value, "lore")}
                 value={formData.lore}
               />
-              <Form.Check
-                type={"checkbox"}
-                id={`default1}`}
-                label={`activo`}
-                checked={formData.isActive}
-                onChange={(e) => inputHandler(e.target.checked, "isActive")}
-              />
-              <Form.Check
-                type={"checkbox"}
-                id={`default2}`}
-                label={`Free to play`}
-                checked={formData.isFreeToPlay}
-                onChange={(e) => inputHandler(e.target.checked, "isFreeToPlay")}
-              />
-              <Form.Check
-                type={"checkbox"}
-                id={`default3}`}
-                label={`Nuevo personaje`}
-                checked={formData.isNewGod}
-                onChange={(e) => inputHandler(e.target.checked, "isNewGod")}
-              />
-              <Form.Group controlId="mainImage">
+              <Row className="py-3 justify-content-center">
+                <Col md={3}>
+                  <Form.Check
+                    type={"checkbox"}
+                    id={`default1}`}
+                    label={`activo`}
+                    checked={formData.isActive}
+                    onChange={(e) => inputHandler(e.target.checked, "isActive")}
+                  />
+                </Col>
+                <Col md={3}>
+                  <Form.Check
+                    type={"checkbox"}
+                    id={`default2}`}
+                    label={`Free to play`}
+                    checked={formData.isFreeToPlay}
+                    onChange={(e) =>
+                      inputHandler(e.target.checked, "isFreeToPlay")
+                    }
+                  />
+                </Col>
+                <Col md={3}>
+                  <Form.Check
+                    type={"checkbox"}
+                    id={`default3}`}
+                    label={`Nuevo personaje`}
+                    checked={formData.isNewGod}
+                    onChange={(e) => inputHandler(e.target.checked, "isNewGod")}
+                  />
+                </Col>
+              </Row>
+              <Form.Group controlId="mainImage" className="pt-3">
                 <Form.Label>URL de la imagen principal</Form.Label>
                 <Form.Control
                   type="text"
@@ -356,7 +366,7 @@ const GodEditAdmin = () => {
                 />
               </Form.Group>
 
-              <Form.Group controlId="cardImage">
+              <Form.Group controlId="cardImage" className="pt-2">
                 <Form.Label>URL de la imagen de la tarjeta</Form.Label>
                 <Form.Control
                   type="text"
@@ -366,116 +376,160 @@ const GodEditAdmin = () => {
                 />
               </Form.Group>
 
-              <Form.Group controlId="skins">
-                <Form.Label>Skins</Form.Label>
-                {formData.images.skins.map((skin, index) => (
-                  <div key={index}>
-                    <Form.Control
-                      type="text"
-                      placeholder={`Nombre de la skin ${index + 1}`}
-                      value={skin.name}
-                      onChange={(e) => handleSkinNameChange(e, index)}
-                    />
-                    <Form.Control
-                      type="text"
-                      placeholder={`URL de la imagen de la skin ${index + 1}`}
-                      value={skin.image}
-                      onChange={(e) => handleSkinUrlChange(e, index)}
-                    />
-                    <Button
-                      variant="outline-secondary"
-                      onClick={() => removeSkinField(index)}
-                    >
-                      Eliminar Skin
+              <Form.Group controlId="skins" className="py-3">
+                <Row className="py-3">
+                  <Col>
+                    <Form.Label>Skins</Form.Label>
+                  </Col>
+                  <Col className="text-md-end">
+                    <Button variant="outline-secondary" onClick={addSkinField}>
+                      Agregar Skin
                     </Button>
-                  </div>
-                ))}
-                <Button variant="outline-secondary" onClick={addSkinField}>
-                  Agregar Skin
-                </Button>
-              </Form.Group>
-
-              <Form.Group controlId="abilities">
-                <Form.Label>Habilidades</Form.Label>
-                {formData.abilities.map((ability, index) => (
-                  <div key={index}>
-                    <Input
-                      type="text"
-                      placeholder={`Nombre de la habilidad ${index + 1}`}
-                      value={ability.name}
-                      handler={(value) => inputHandler(value, "name", index)}
-                    />
-                    <Form.Control
-                      as="textarea"
-                      placeholder={`Descripción de la habilidad ${index + 1}`}
-                      value={ability.description}
-                      onChange={(e) =>
-                        inputHandler(e.target.value, "description", index)
-                      }
-                    />
-                    <Form.Label>Detalles</Form.Label>
-                    {ability.details.map((detail, detailIndex) => (
-                      <div key={detailIndex}>
-                        <Input
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    {formData.images.skins.map((skin, index) => (
+                      <div key={index} className="py-2">
+                        <Form.Control
                           type="text"
-                          placeholder={`Etiqueta del detalle ${
-                            detailIndex + 1
-                          }`}
-                          value={detail.label}
-                          handler={(value) =>
-                            handleAbilityChange(
-                              value,
-                              index,
-                              "details",
-                              detailIndex,
-                              "label"
-                            )
-                          }
+                          placeholder={`Nombre de la skin ${index + 1}`}
+                          value={skin.name}
+                          onChange={(e) => handleSkinNameChange(e, index)}
                         />
-                        <Input
+                        <Form.Control
                           type="text"
-                          placeholder={`Valor del detalle ${detailIndex + 1}`}
-                          value={detail.value}
-                          handler={(value) =>
-                            handleAbilityChange(
-                              value,
-                              index,
-                              "details",
-                              detailIndex,
-                              "value"
-                            )
-                          }
+                          placeholder={`URL de la imagen de la skin ${
+                            index + 1
+                          }`}
+                          value={skin.image}
+                          onChange={(e) => handleSkinUrlChange(e, index)}
+                          className="my-3"
                         />
                         <Button
                           variant="outline-secondary"
-                          onClick={() => removeDetailField(index, detailIndex)}
+                          onClick={() => removeSkinField(index)}
                         >
-                          Eliminar Detalle
+                          Eliminar Skin
                         </Button>
                       </div>
                     ))}
-                    <Button
-                      variant="outline-secondary"
-                      onClick={() => addDetailField(index)}
-                    >
-                      Agregar Detalle
-                    </Button>
-                    <Button
-                      variant="outline-secondary"
-                      onClick={() => removeAbilityField(index)}
-                    >
-                      Eliminar Habilidad
-                    </Button>
-                  </div>
-                ))}
-                <Button variant="outline-secondary" onClick={addAbilityField}>
-                  Agregar Habilidad
-                </Button>
+                  </Col>
+                </Row>
               </Form.Group>
 
-              <Button type="submit" variant="secondary">
-                Enviar
-              </Button>
+              <Form.Group controlId="abilities">
+                <Row className="py-3">
+                  <Col>
+                    <Form.Label>Habilidades</Form.Label>
+                  </Col>
+                  <Col className="text-md-end">
+                    <Button
+                      variant="outline-secondary"
+                      onClick={addAbilityField}
+                    >
+                      Agregar Habilidad
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    {formData.abilities.map((ability, index) => (
+                      <div key={index}>
+                        <Input
+                          type="text"
+                          placeholder={`Nombre de la habilidad ${index + 1}`}
+                          value={ability.name}
+                          handler={(value) =>
+                            inputHandler(value, "name", index)
+                          }
+                        />
+                        <Form.Control
+                          as="textarea"
+                          placeholder={`Descripción de la habilidad ${
+                            index + 1
+                          }`}
+                          value={ability.description}
+                          onChange={(e) =>
+                            inputHandler(e.target.value, "description", index)
+                          }
+                        />
+                        <Row className="py-3">
+                          <Col>
+                            <Form.Label>Detalles</Form.Label>
+                          </Col>
+                          <Col className="text-md-end">
+                            <Button
+                              variant="outline-secondary"
+                              onClick={() => addDetailField(index)}
+                            >
+                              Agregar Detalle
+                            </Button>
+                          </Col>
+                        </Row>
+                        {ability.details.map((detail, detailIndex) => (
+                          <div key={detailIndex}>
+                            <Input
+                              type="text"
+                              placeholder={`Etiqueta del detalle ${
+                                detailIndex + 1
+                              }`}
+                              value={detail.label}
+                              handler={(value) =>
+                                handleAbilityChange(
+                                  value,
+                                  index,
+                                  "details",
+                                  detailIndex,
+                                  "label"
+                                )
+                              }
+                            />
+                            <Input
+                              type="text"
+                              placeholder={`Valor del detalle ${
+                                detailIndex + 1
+                              }`}
+                              value={detail.value}
+                              handler={(value) =>
+                                handleAbilityChange(
+                                  value,
+                                  index,
+                                  "details",
+                                  detailIndex,
+                                  "value"
+                                )
+                              }
+                            />
+                            <Button
+                              variant="outline-secondary"
+                              onClick={() =>
+                                removeDetailField(index, detailIndex)
+                              }
+                              className="mb-3"
+                            >
+                              Eliminar Detalle
+                            </Button>
+                          </div>
+                        ))}
+
+                        <Button
+                          variant="outline-secondary"
+                          onClick={() => removeAbilityField(index)}
+                          className="mb-3"
+                        >
+                          Eliminar Habilidad
+                        </Button>
+                      </div>
+                    ))}
+                  </Col>
+                </Row>
+              </Form.Group>
+              <div className="text-center">
+                <Button type="submit" variant="secondary">
+                  Enviar
+                </Button>
+              </div>
             </Form>
           </Col>
         </Row>

@@ -314,7 +314,7 @@ const GodAddAdmin = () => {
                 name="lore"
                 onChange={(e) => inputHandler(e.target.value, "lore")}
               />
-              <Row className="justify-conten-center py-3">
+              <Row className="justify-content-center py-3">
                 <Col md={3}>
                   <Form.Check
                     type={"checkbox"}
