@@ -1,8 +1,43 @@
 .gridGods {
-  display: flex;
+  /* display: flex;
   gap: 1em;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11em, 1fr));
+  grid-gap: 1em;
+  margin: 0 auto;
+  justify-items: center;
 }
 .gridGods div {
   cursor: pointer;
+}
+
+.gridGods p {
+  color: var(--blanco);
+  text-align: center;
+}
+
+.banner {
+  height: 30em;
+}
+
+.bannerGods {
+  background: url("general/bannerGods.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cajaBuscador {
+  border-radius: var(--border-rad-big);
+  background: var(--black-black-12, #1a1b23);
+  margin: 4em auto;
+  color: var(--blanco);
+}
+.cajaBuscador > div > div > div > div {
+  margin-bottom: 0 !important;
+}
+
+.selectGods {
+  margin: 1em;
 }

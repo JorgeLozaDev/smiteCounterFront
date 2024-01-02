@@ -38,7 +38,8 @@ export const Header = () => {
           <Navbar.Brand href="/">logo</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
+            <Nav className="me-auto"></Nav>
+            <Nav>
               <Nav.Link href="/gods">Dioses</Nav.Link>
               <Nav.Link href="/counter">Counters</Nav.Link>
               <Nav.Link href="/contact">contacto</Nav.Link>
@@ -77,10 +78,14 @@ export const Header = () => {
                     </NavDropdown>
                   ) : (
                     <>
-                      <Nav.Link href="/profile">
-                        <PersonWorkspace /> Perfil
-                      </Nav.Link>
-                      <Nav.Link onClick={handlerLogOut}>Log out</Nav.Link>
+                      <NavDropdown title="Menú" id="collasible-nav-dropdown">
+                        <NavDropdown.Item href="/profile">
+                          <PersonWorkspace /> Perfil
+                        </NavDropdown.Item>
+                        <NavDropdown.Item onClick={handlerLogOut}>
+                          Log out
+                        </NavDropdown.Item>
+                      </NavDropdown>
                     </>
                   )}
                 </>

@@ -57,97 +57,100 @@ const Gods = () => {
 
   const handleDetailGod = (godId) => {
     dispatch(saveId({ id: godId }));
-    // console.log(godId);
-    
     navigate("/god/details");
   };
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Row className="align-items-center">
-            <Col xs={12} md={3}>
-              <CustomSelect
-                options={[
-                  "Guardián",
-                  "Guerrero",
-                  "Cazador",
-                  "Mago",
-                  "Asesino",
-                ].map((role) => ({
-                  value: role,
-                  label: role,
-                }))}
-                placeholder="Seleccione un rol"
-                name="role"
-                handler={inputHandler}
-                value={filter.role || ""}
-                className="tu-clase-estilo"
-              />
-            </Col>
-            <Col xs={12} md={3}>
-              <CustomSelect
-                options={[
-                  "Arturiano",
-                  "Babilónico",
-                  "Chino",
-                  "Celta",
-                  "Egipcio",
-                  "Griego",
-                  "Grandes Antiguos",
-                  "Hindú",
-                  "Japonés",
-                  "Maya",
-                  "Nórdico",
-                  "Polinesio",
-                  "Romano",
-                  "Eslavo",
-                  "Vudú",
-                  "Yoruba",
-                ].map((pantheon) => ({
-                  value: pantheon,
-                  label: pantheon,
-                }))}
-                placeholder="Seleccione un panteón"
-                name="pantheon"
-                handler={inputHandler}
-                value={filter.pantheon || ""}
-                className="tu-clase-estilo"
-              />
-            </Col>
-            <Col xs={12} md={3}>
-              <Input
-                placeholder={"Nombre del dios"}
-                type={"text"}
-                name={"godName"}
-                value={filter.godName}
-                handler={inputHandler}
-                debounce={true}
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row>
-        {gods.length > 0 ? (
-          <div className="gridGods">
-            {gods.map((god) => (
-              <a key={god._id}  onClick={() => handleDetailGod(god._id)}>
-                <div >
-                  <img src={god.images.card} />
-                  <p>{god.name}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <div>
-            <p>Sin datos</p>
-          </div>
-        )}
-      </Row>
-    </Container>
+    <>
+      <Container fluid className="banner bannerGods"></Container>
+
+      <Container className="py-5">
+        <Row className="cajaBuscador">
+          <Col>
+            <Row className="align-items-center justify-content-center">
+              <Col xs={12} md={3}>
+
+                <CustomSelect
+                  options={[
+                    "Guardián",
+                    "Guerrero",
+                    "Cazador",
+                    "Mago",
+                    "Asesino",
+                  ].map((role) => ({
+                    value: role,
+                    label: role,
+                  }))}
+                  placeholder="Seleccione un rol"
+                  name="role"
+                  handler={inputHandler}
+                  value={filter.role || ""}
+                  className="selectGods"
+                />
+              </Col>
+              <Col xs={12} md={3}>
+                <CustomSelect
+                  options={[
+                    "Arturiano",
+                    "Babilónico",
+                    "Chino",
+                    "Celta",
+                    "Egipcio",
+                    "Griego",
+                    "Grandes Antiguos",
+                    "Hindú",
+                    "Japonés",
+                    "Maya",
+                    "Nórdico",
+                    "Polinesio",
+                    "Romano",
+                    "Eslavo",
+                    "Vudú",
+                    "Yoruba",
+                  ].map((pantheon) => ({
+                    value: pantheon,
+                    label: pantheon,
+                  }))}
+                  placeholder="Seleccione un panteón"
+                  name="pantheon"
+                  handler={inputHandler}
+                  value={filter.pantheon || ""}
+                  className="selectGods"
+                />
+              </Col>
+              <Col xs={12} md={3}>
+                <Input
+                  placeholder={"Nombre del dios"}
+                  type={"text"}
+                  name={"godName"}
+                  value={filter.godName}
+                  handler={inputHandler}
+                  debounce={true}
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          {gods.length > 0 ? (
+            <div className="gridGods">
+              {gods.map((god) => (
+                <a key={god._id} onClick={() => handleDetailGod(god._id)}>
+                  <div>
+                    <img src={god.images.card} />
+                    <p>{god.name}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <p>Sin datos</p>
+            </div>
+          )}
+        </Row>
+      </Container>
+    </>
   );
 };
 
