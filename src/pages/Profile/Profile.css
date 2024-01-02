@@ -1,4 +1,10 @@
 .tab-content {
-  background-color: var(--blanco);
   min-height: 10em;
+}
+
+.cajaTabs {
+  border-radius: var(--border-rad-big);
+  background: var(--black-black-12, #1a1b23);
+  color: var(--blanco);
+  padding: 1em;
 }

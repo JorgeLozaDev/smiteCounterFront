@@ -38,7 +38,7 @@ export const Profile = () => {
                   </Nav>
                 </Col>
                 <Col sm={9}>
-                  <Tab.Content>
+                  <Tab.Content className="cajaTabs">
                     <Tab.Pane eventKey="first">
                       <DataProfile />{" "}
                     </Tab.Pane>
