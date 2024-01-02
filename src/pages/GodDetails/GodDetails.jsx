@@ -13,12 +13,19 @@ const GodDetails = () => {
     godsDetails("gods/godDetails/", idGod.id)
       .then((data) => {
         setGod(data.data.godDetails);
-        console.log(data.data.godDetails);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  // Función para obtener la ruta de la imagen de la habilidad
+  const getAbilityImagePath = (abilityIndex, imageIndex) => {
+    const godName = god.name.toLowerCase().replace(/\s/g, "");
+    return `/gods/${godName}/${godName}${abilityIndex + 1}_${
+      imageIndex + 1
+    }.png`;
+  };
 
   return (
     <>
@@ -39,108 +46,48 @@ const GodDetails = () => {
                 <p>{god.lore}</p>
               </Col>
               <Col md={6}>
-                <img src={god.images.card} />
-              </Col>
-            </Row>
-            <Row className="caja">
-              <Col md={6}>
-                <img src={god.images.card} />
-              </Col>
-              <Col md={6}>
-                <p>{god.abilities[0].name}</p>
-                <p>{god.abilities[0].description}</p>
-                {god.abilities[0].details.length > 0 ? <div></div> : <p></p>}
-              </Col>
-            </Row>
-            <Row className="caja">
-              <Col md={6}>
-                <p>{god.abilities[1].name}</p>
-                <p>{god.abilities[1].description}</p>
-                {god.abilities[1].details.length > 0 ? (
-                  <div>
-                    {god.abilities[1].details.map((det, indice) => {
-                      return (
-                        <p key={indice}>
-                          {det.label}: {det.value}
-                        </p>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <p></p>
+                {/* Mostrar la imagen principal */}
+                {god.images.card && (
+                  <img src={god.images.card} alt={`God ${god.name} card`} />
                 )}
-              </Col>
-              <Col md={6}>
-                <img src={god.images.card} />
               </Col>
             </Row>
 
-            <Row className="caja">
-              <Col md={6}>
-                <img src={god.images.card} />
-              </Col>
-              <Col md={6}>
-                <p>{god.abilities[2].name}</p>
-                <p>{god.abilities[2].description}</p>
-                {god.abilities[2].details.length > 0 ? (
-                  <div>
-                    {god.abilities[2].details.map((det, indice) => {
-                      return (
+            {god.abilities.map((ability, abilityIndex) => (
+              <Row className="caja" key={abilityIndex}>
+                <Col
+                  md={6}
+                  className={`d-flex align-items-center justify-content-center ${abilityIndex % 2 === 0 ? "order-md-last" : ""}`}
+                >
+                  {/* Mostrar la imagen de la habilidad */}
+                  <img
+                    src={`/gods/${god.name}/${god.name}${
+                      abilityIndex + 1
+                    }.png`.replace(/ /g, "_")}
+                    alt={`God ${god.name} ability ${abilityIndex + 1} image 1`}
+                    className="img-fluid "
+                  />
+                </Col>
+                <Col
+                  md={6}
+                  className={abilityIndex % 2 === 0 ? "" : "order-md-last"}
+                >
+                  <p>{ability.name}</p>
+                  <p>{ability.description}</p>
+                  {ability.details.length > 0 ? (
+                    <div>
+                      {ability.details.map((det, indice) => (
                         <p key={indice}>
                           {det.label}: {det.value}
                         </p>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <p></p>
-                )}
-              </Col>
-            </Row>
-            <Row className="caja">
-              <Col md={6}>
-                <p>{god.abilities[3].name}</p>
-                <p>{god.abilities[3].description}</p>
-                {god.abilities[3].details.length > 0 ? (
-                  <div>
-                    {god.abilities[3].details.map((det, indice) => {
-                      return (
-                        <p key={indice}>
-                          {det.label}: {det.value}
-                        </p>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <p></p>
-                )}
-              </Col>
-              <Col md={6}>
-                <img src={god.images.card} />
-              </Col>
-            </Row>
-            <Row className="caja">
-              <Col md={6}>
-                <img src={god.images.card} />
-              </Col>
-              <Col md={6}>
-                <p>{god.abilities[4].name}</p>
-                <p>{god.abilities[4].description}</p>
-                {god.abilities[4].details.length > 0 ? (
-                  <div>
-                    {god.abilities[4].details.map((det, indice) => {
-                      return (
-                        <p key={indice}>
-                          {det.label}: {det.value}
-                        </p>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <p></p>
-                )}
-              </Col>
-            </Row>
+                      ))}
+                    </div>
+                  ) : (
+                    <p></p>
+                  )}
+                </Col>
+              </Row>
+            ))}
           </Container>
         </>
       ) : (

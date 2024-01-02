@@ -66,9 +66,6 @@ export const Header = () => {
                       <NavDropdown.Item href="/listGods">
                         List gods
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="/editGod">
-                        Edit god
-                      </NavDropdown.Item>
                       <NavDropdown.Item href="/profile">
                         <PersonWorkspace /> Perfil
                       </NavDropdown.Item>
