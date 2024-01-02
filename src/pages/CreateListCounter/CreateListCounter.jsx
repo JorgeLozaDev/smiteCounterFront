@@ -99,7 +99,13 @@ const CreateListCounter = () => {
 
   return (
     <>
-      <Container>
+      <Container
+        fluid
+        className="banner bannerGod"
+        style={{ backgroundImage: `url(general/bannerVs.png)` }}
+      ></Container>
+      
+      <Container className="py-5">
         <DragDropContext onDragEnd={onDragEnd}>
           {/* Lista 1 */}
           <Row>
