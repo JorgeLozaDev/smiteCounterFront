@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Input from "../../common/CustomInput/CustomInput";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
-import { UpdateGod, addGod, godsDetails } from "../../services/apiCalls";
+import { UpdateGod,  godsDetails } from "../../services/apiCalls";
 import { ToastContainer, Toasty } from "../../common/CustomToasty/CustomToasty";
 import { godDetails } from "../godSlice";
 
