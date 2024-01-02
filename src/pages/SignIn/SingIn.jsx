@@ -6,6 +6,7 @@ import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
 import { useNavigate } from "react-router-dom";
 import { login, userDetails } from "../userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import "./SingIn.css"
 
 export const SingIn = () => {
   const [signindata, setSinginData] = useState({
@@ -109,7 +110,12 @@ export const SingIn = () => {
   return (
     <>
       <ToastContainer />
-      <Container>
+      <Container className="py-5">
+        <Row>
+          <Col>
+            <h2 className="text-center titleLogin">Crea tú cuenta</h2>
+          </Col>
+        </Row>
         <Row>
           <Col>
             <Form onSubmit={handlerSend} method="post">
