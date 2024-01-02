@@ -1,8 +1,22 @@
-.dragGods{
-    width: 7em;
-    height: 7em;
+.dragGods {
+  width: 7em;
+  height: 7em;
+}
+.test {
+  min-height: 10em;
 }
 
-.test{
-    min-height: 10em;
+.cajaCounters {
+  border-radius: var(--border-rad-big);
+  background: var(--black-black-12, #1a1b23);
+  margin: 1em auto;
+  padding: 1em;
+  color: var(--blanco);
+}
+
+.img-principal-counter{
+    width: 8em;
+    height: auto;
+    padding: 1em 0;
+    border-radius: var(--border-rad-big);
 }
