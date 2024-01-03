@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
-import { allGodsActives, filterGodsActives } from "../../services/apiCalls";
+import { allGodsActives } from "../../services/apiCalls";
 import { Col, Row, Container, Button } from "react-bootstrap";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
 import "./CreateListCounter.css";
@@ -11,8 +11,9 @@ import Input from "../../common/CustomInput/CustomInput";
 const CreateListCounter = () => {
   const [rows, setRows] = useState([]);
   const [gods1, setGods1] = useState([]);
+  const [gods2, setGods2] = useState([]);
   const [rowCount, setRowCount] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredGods, setFilteredGods] = useState([]);
   const navigate = useNavigate();
   const token = useSelector(userDetails);
 
@@ -24,6 +25,7 @@ const CreateListCounter = () => {
     allGodsActives("gods/allGodsActive")
       .then((data) => {
         setGods1(data.data.allGodsActive);
+        setGods2(data.data.allGodsActive);
       })
       .catch((error) => {
         console.log(error);
@@ -37,7 +39,9 @@ const CreateListCounter = () => {
       filter: {
         godName: "",
       },
-      filteredGods: filterGods(gods1, ""),
+      // filteredGods: filterGods(gods1, ""),
+      selectedGodId: null, // Este es el valor seleccionado del Select
+      filteredGods: [],
       cols: [
         { id: `col-1`, size: 3 },
         { id: `col-2`, size: 6 },
@@ -51,7 +55,9 @@ const CreateListCounter = () => {
 
   const handleDeleteRow = (rowId, rowIndex) => {
     setRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
-    // Asegúrate de manejar la selección del dios después de la eliminación
+    setFilteredGods((prevFilteredGods) =>
+      prevFilteredGods.filter((_, index) => index !== rowIndex)
+    );
     handleGodSelect(null, rowIndex);
   };
 
@@ -59,32 +65,13 @@ const CreateListCounter = () => {
     const selectedGodDetails = gods1.find((god) => god._id === selectedOption);
 
     setRows((prevRows) =>
-      prevRows.map((row, index) => {
-        if (index === rowIndex) {
-          return {
-            ...row,
-            selectedGod: selectedGodDetails,
-          };
-        }
-        return row;
-      })
-    );
-  };
-
-
-  const handleSearchChange = (event, rowIndex) => {
-    const value = event.target.value;
-
-    setRows((prevRows) =>
       prevRows.map((row, index) =>
         index === rowIndex
           ? {
+            
               ...row,
-              filter: {
-                ...row.filter,
-                godName: value,
-              },
-              filteredGods: filterGods(gods1, value),
+              selectedGod: selectedGodDetails,
+              selectedGodId: selectedOption,
             }
           : row
       )
@@ -98,6 +85,7 @@ const CreateListCounter = () => {
   };
 
   const inputHandler = (value, name, rowIndex) => {
+    
     setRows((prevRows) =>
       prevRows.map((row, index) =>
         index === rowIndex
@@ -107,7 +95,7 @@ const CreateListCounter = () => {
                 ...row.filter,
                 [name]: value,
               },
-              filteredGods: filterGods(gods1, value),
+              filteredGods: filterGods(gods2, value),
             }
           : row
       )
@@ -132,10 +120,7 @@ const CreateListCounter = () => {
               >
                 {/* Content for each column */}
                 {colIndex === 0 && (
-                  <div
-                    key={`selected-god-${row.id}`}
-                    className="text-center"
-                  >
+                  <div key={`selected-god-${row.id}`} className="text-center">
                     {row.selectedGod && (
                       <img
                         src={row.selectedGod.images.card}
@@ -144,7 +129,7 @@ const CreateListCounter = () => {
                       />
                     )}
                     <CustomSelect
-                      options={filterGods(gods1, row.filter.godName).map(
+                      options={gods1.map(
                         (god) => ({
                           value: god._id,
                           label: god.name,
@@ -166,13 +151,11 @@ const CreateListCounter = () => {
                       type={"text"}
                       name={"godName"}
                       value={row.filter.godName}
-                      handler={(value) =>
-                        inputHandler(value, "godName", index)
-                      }
+                      handler={(value) => inputHandler(value, "godName", index)}
                       debounce={true}
                     />
                     <ul>
-                      {filterGods(gods1, row.filter.godName).map((god) => (
+                      {filterGods(gods2, row.filter.godName).map((god) => (
                         <li key={god._id}>{god.name}</li>
                       ))}
                     </ul>
