@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
-import { allGodsActives } from "../../services/apiCalls";
+import { allGodsActives, filterGodsActives } from "../../services/apiCalls";
 import { Col, Row, Container, Button } from "react-bootstrap";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
 import "./CreateListCounter.css";
+import Input from "../../common/CustomInput/CustomInput";
 
 const CreateListCounter = () => {
   const [rows, setRows] = useState([]);
   const [gods1, setGods1] = useState([]);
-  const [selectedGod, setSelectedGod] = useState(null);
-  const [rowCount, setRowCount] = useState(0); // Nuevo estado para contar las filas
+  const [rowCount, setRowCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const token = useSelector(userDetails);
 
@@ -27,11 +28,16 @@ const CreateListCounter = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [token.credentials, navigate]);
 
   const handleButtonClick = () => {
     const newRow = {
-      id: `row-${rowCount + 1}`, // Utilizando rowCount como identificador único
+      id: `row-${rowCount + 1}`,
+      selectedGod: null,
+      filter: {
+        godName: "",
+      },
+      filteredGods: filterGods(gods1, ""),
       cols: [
         { id: `col-1`, size: 3 },
         { id: `col-2`, size: 6 },
@@ -39,22 +45,73 @@ const CreateListCounter = () => {
       ],
     };
 
-    setRowCount((prevCount) => prevCount + 1); // Incrementando el contador
+    setRowCount((prevCount) => prevCount + 1);
     setRows((prevRows) => [...prevRows, newRow]);
   };
 
-  const handleDeleteRow = (rowId) => {
+  const handleDeleteRow = (rowId, rowIndex) => {
     setRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
+    // Asegúrate de manejar la selección del dios después de la eliminación
+    handleGodSelect(null, rowIndex);
   };
 
-  const inputHandler = () => {};
+  const handleGodSelect = (selectedOption, rowIndex) => {
+    const selectedGodDetails = gods1.find((god) => god._id === selectedOption);
 
-  const handleGodSelect = (selectedOption) => {
-
-    const selectedGodDetails = gods1.find(
-      (god) => god._id === selectedOption
+    setRows((prevRows) =>
+      prevRows.map((row, index) => {
+        if (index === rowIndex) {
+          return {
+            ...row,
+            selectedGod: selectedGodDetails,
+          };
+        }
+        return row;
+      })
     );
-    setSelectedGod(selectedGodDetails);
+  };
+
+
+  const handleSearchChange = (event, rowIndex) => {
+    const value = event.target.value;
+
+    setRows((prevRows) =>
+      prevRows.map((row, index) =>
+        index === rowIndex
+          ? {
+              ...row,
+              filter: {
+                ...row.filter,
+                godName: value,
+              },
+              filteredGods: filterGods(gods1, value),
+            }
+          : row
+      )
+    );
+  };
+
+  const filterGods = (gods, term) => {
+    return gods.filter((god) =>
+      god.name.toLowerCase().includes(term.toLowerCase())
+    );
+  };
+
+  const inputHandler = (value, name, rowIndex) => {
+    setRows((prevRows) =>
+      prevRows.map((row, index) =>
+        index === rowIndex
+          ? {
+              ...row,
+              filter: {
+                ...row.filter,
+                [name]: value,
+              },
+              filteredGods: filterGods(gods1, value),
+            }
+          : row
+      )
+    );
   };
 
   return (
@@ -66,33 +123,62 @@ const CreateListCounter = () => {
           </Col>
         </Row>
 
-        {rows.map((row) => (
+        {rows.map((row, index) => (
           <div className="row cajaCounters" key={row.id}>
-            {row.cols.map((col, index) => (
-              <div key={`${col.id}-${index}`} className={`col-md-${col.size}`}>
+            {row.cols.map((col, colIndex) => (
+              <div
+                key={`${col.id}-${colIndex}`}
+                className={`col-md-${col.size}`}
+              >
                 {/* Content for each column */}
-                {index === 0 && (
-                  <div key={`selected-god-${row.id}`} className="text-center">
-                    {selectedGod && (
+                {colIndex === 0 && (
+                  <div
+                    key={`selected-god-${row.id}`}
+                    className="text-center"
+                  >
+                    {row.selectedGod && (
                       <img
-                        src={selectedGod.images.card}
+                        src={row.selectedGod.images.card}
                         alt="Dios Seleccionado"
                         className="img-principal-counter"
                       />
                     )}
                     <CustomSelect
-                      options={gods1.map((god) => ({
-                        value: god._id,
-                        label: god.name,
-                      }))}
+                      options={filterGods(gods1, row.filter.godName).map(
+                        (god) => ({
+                          value: god._id,
+                          label: god.name,
+                        })
+                      )}
                       placeholder="Seleccione un dios"
                       name="god"
-                      handler={handleGodSelect}
+                      handler={(selectedOption) =>
+                        handleGodSelect(selectedOption, index)
+                      }
                       className=""
                     />
                   </div>
                 )}
-                {index === row.cols.length - 1 && (
+                {colIndex === 1 && (
+                  <div key={`search-${row.id}`}>
+                    <Input
+                      placeholder={"Nombre del dios"}
+                      type={"text"}
+                      name={"godName"}
+                      value={row.filter.godName}
+                      handler={(value) =>
+                        inputHandler(value, "godName", index)
+                      }
+                      debounce={true}
+                    />
+                    <ul>
+                      {filterGods(gods1, row.filter.godName).map((god) => (
+                        <li key={god._id}>{god.name}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {colIndex === row.cols.length - 1 && (
                   <div key={`buttons-${row.id}`}>
                     <Button onClick={() => handleDeleteRow(row.id)}>
                       Eliminar
