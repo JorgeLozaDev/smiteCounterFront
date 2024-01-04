@@ -15,7 +15,7 @@
 }
 
 .img-principal-counter {
-  width: 8em;
+  width: 10em;
   height: auto;
   padding: 1em 0;
   border-radius: var(--border-rad-big);
@@ -35,10 +35,11 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
+  padding: 1em 0;
 }
-.selected-god-image {
+.selected-god-image  img{
   border-radius: var(--border-rad-big);
-  width: 8em;
+  width: 6em;
 }
 
 .selected-god-image {
@@ -47,12 +48,12 @@
 
 .remove-god-icon {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0.2em;
+  right: 0.5em;
   cursor: pointer;
   opacity: 0; /* Inicialmente oculto */
   transition: opacity 0.3s ease;
-  font-size: 18px;
+  font-size: 20px;
   color: red; /* Puedes ajustar el color según tus preferencias */
 }
  

@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
 import { allGodsActives } from "../../services/apiCalls";
-import { Col, Row, Container, Button } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
 import "./CreateListCounter.css";
 import Input from "../../common/CustomInput/CustomInput";
+import { Trash3Fill } from "react-bootstrap-icons";
 
 const CreateListCounter = () => {
   const [rows, setRows] = useState([
@@ -19,8 +27,8 @@ const CreateListCounter = () => {
       selectedGodsList: [],
       cols: [
         { id: `col-1`, size: 3 },
-        { id: `col-2`, size: 6 },
-        { id: `col-3`, size: 3 },
+        { id: `col-2`, size: 7 },
+        { id: `col-3`, size: 2 },
       ],
     },
   ]);
@@ -107,7 +115,11 @@ const CreateListCounter = () => {
 
   const handleGodClick = (god, rowIndex) => {
     // Verifica si el dios ya está en la lista antes de agregarlo
-    if (!rows[rowIndex].selectedGodsList.some((selectedGod) => selectedGod._id === god._id)) {
+    if (
+      !rows[rowIndex].selectedGodsList.some(
+        (selectedGod) => selectedGod._id === god._id
+      )
+    ) {
       setRows((prevRows) =>
         prevRows.map((row, index) =>
           index === rowIndex
@@ -127,7 +139,9 @@ const CreateListCounter = () => {
         index === rowIndex
           ? {
               ...row,
-              selectedGodsList: row.selectedGodsList.filter((selectedGod) => selectedGod._id !== godId),
+              selectedGodsList: row.selectedGodsList.filter(
+                (selectedGod) => selectedGod._id !== godId
+              ),
             }
           : row
       )
@@ -136,7 +150,7 @@ const CreateListCounter = () => {
 
   return (
     <>
-      <Container>
+      <Container className="py-5">
         <Row>
           <Col>
             <Button onClick={handleButtonClick}>Agregar Fila</Button>
@@ -153,6 +167,7 @@ const CreateListCounter = () => {
                 {/* Content for each column */}
                 {colIndex === 0 && (
                   <div key={`selected-god-${row.id}`} className="text-center">
+                    <h3>Dios</h3>
                     {row.selectedGod && (
                       <img
                         src={row.selectedGod.images.card}
@@ -177,7 +192,7 @@ const CreateListCounter = () => {
                 {colIndex === 1 && (
                   <div key={`search-${row.id}`}>
                     <div className="selected-gods-list">
-                      <h3>Dioses Seleccionados</h3>
+                      <h3>Counters</h3>
                       <div className="selected-gods-container">
                         {row.selectedGodsList.map((selectedGod) => (
                           <div
@@ -192,9 +207,21 @@ const CreateListCounter = () => {
                             {/* Icono "x" para quitar el dios seleccionado */}
                             <div
                               className="remove-god-icon"
-                              onClick={() => handleRemoveGod(selectedGod._id, index)}
+                              onClick={() =>
+                                handleRemoveGod(selectedGod._id, index)
+                              }
                             >
-                              &#10006;
+                              <OverlayTrigger
+                                key={"bottom"}
+                                placement={"bottom"}
+                                overlay={
+                                  <Tooltip id={`tooltip-${"bottom"}`}>
+                                    <strong>Eliminar</strong>
+                                  </Tooltip>
+                                }
+                              >
+                                <Trash3Fill></Trash3Fill>
+                              </OverlayTrigger>
                             </div>
 
                             {/* Overlay con el nombre del dios */}
@@ -231,10 +258,10 @@ const CreateListCounter = () => {
                 )}
                 {colIndex === row.cols.length - 1 && (
                   <div key={`buttons-${row.id}`}>
+                    <Button>Guardar</Button>
                     <Button onClick={() => handleDeleteRow(row.id)}>
                       Eliminar
                     </Button>
-                    <Button>Guardar</Button>
                   </div>
                 )}
               </div>
