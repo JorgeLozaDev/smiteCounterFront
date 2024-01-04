@@ -15,6 +15,8 @@ export const Profile = () => {
     if (token.credentials == "") {
       navigate("/");
     }
+
+    
   }, []);
 
   return (
@@ -60,7 +62,7 @@ export const Profile = () => {
           </Col>
         </Row>
       </Container>
-      );
+      
     </>
   );
 };

@@ -86,6 +86,16 @@ export const UpdateGod = async (endpoint, token, data) => {
   return god;
 };
 
+
+export const getAllListCounters = async (endpoint, token) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+  const allGods = await axios.get(`${URL}${endpoint}`, { headers });
+  return allGods;
+};
+
+
 export const saveListCounters = async (endpoint, token, data) => {
   const headers = {
     Authorization: "Bearer " + token.credentials,
