@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import DataProfile from "../DataProfile/DataProfile";
 import { ToastContainer } from "../../common/CustomToasty/CustomToasty";
-import "./Profile.css"
+import "./Profile.css";
+import ListCounters from "../ListCounters/ListCounters";
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -15,8 +16,6 @@ export const Profile = () => {
     if (token.credentials == "") {
       navigate("/");
     }
-
-    
   }, []);
 
   return (
@@ -50,10 +49,11 @@ export const Profile = () => {
                         onClick={() => {
                           navigate("/createList");
                         }}
+                        className="my-3"
                       >
-                        {" "}
-                        Agregar lista
+                         Agregar lista
                       </Button>{" "}
+                      <ListCounters></ListCounters>
                     </Tab.Pane>
                   </Tab.Content>
                 </Col>
@@ -62,7 +62,6 @@ export const Profile = () => {
           </Col>
         </Row>
       </Container>
-      
     </>
   );
 };
