@@ -14,9 +14,66 @@
   color: var(--blanco);
 }
 
-.img-principal-counter{
-    width: 8em;
-    height: auto;
-    padding: 1em 0;
-    border-radius: var(--border-rad-big);
+.img-principal-counter {
+  width: 8em;
+  height: auto;
+  padding: 1em 0;
+  border-radius: var(--border-rad-big);
+}
+
+.filtered-gods-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.filtered-god-image {
+  border-radius: var(--border-rad-big);
+  width: 4em;
+}
+
+.selected-gods-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.selected-god-image {
+  border-radius: var(--border-rad-big);
+  width: 8em;
+}
+
+.selected-god-image {
+  position: relative;
+}
+
+.remove-god-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  opacity: 0; /* Inicialmente oculto */
+  transition: opacity 0.3s ease;
+  font-size: 18px;
+  color: red; /* Puedes ajustar el color según tus preferencias */
+}
+ 
+.selected-god-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente para mayor legibilidad */
+  color: white; /* Color del texto */
+  padding: 0.5em;
+  box-sizing: border-box;
+  opacity: 0; /* Inicialmente oculto */
+  transition: opacity 0.3s ease;
+}
+
+.selected-god-image:hover .remove-god-icon {
+  opacity: 1;
+}
+
+.selected-god-image:hover .selected-god-name {
+  opacity: 1;
 }
