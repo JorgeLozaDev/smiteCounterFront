@@ -15,6 +15,7 @@ import CustomSelect from "../../common/CustomSelect/CustomSelect";
 import "./CreateListCounter.css";
 import Input from "../../common/CustomInput/CustomInput";
 import { Trash3Fill } from "react-bootstrap-icons";
+import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
 
 const CreateListCounter = () => {
   const [rows, setRows] = useState([
@@ -33,6 +34,9 @@ const CreateListCounter = () => {
     },
   ]);
 
+  const [nombreLista, setNombreLista] = useState({
+    listName: "",
+  });
   const [gods1, setGods1] = useState([]);
   const [gods2, setGods2] = useState([]);
   const navigate = useNavigate();
@@ -148,10 +152,71 @@ const CreateListCounter = () => {
     );
   };
 
+  const handleSave = (row) => {
+    // Aquí debes enviar los datos al servidor
+    // Puedes usar fetch, axios, o cualquier otra biblioteca para hacer la solicitud HTTP
+    if (
+      row &&
+      row.selectedGod &&
+      Array.isArray(row.selectedGodsList) &&
+      row.selectedGodsList.length > 0
+    ) {
+      const data = {
+        listName: nombreLista.listName, // Puedes cambiar esto según tus necesidades
+        mainGod: row.selectedGod._id,
+        counterpicks: row.selectedGodsList.map((selectedGod) => ({
+          godId: selectedGod._id,
+        })),
+      };
+      
+      Toasty({
+        message: "Se esta guardando... la lista",
+        type: "success",
+      });
+
+    } else {
+      let errorMessage = "Error: Los siguientes campos están vacíos:";
+
+      if (!row) {
+        errorMessage += " 'no existe esa fila'";
+      }
+
+      if (!row.selectedGod) {
+        errorMessage += " 'debes selecciona un dios'";
+      }
+
+      if (
+        !Array.isArray(row.selectedGodsList) ||
+        row.selectedGodsList.length === 0
+      ) {
+        errorMessage += " 'tienes que seleccionar 1 dios como mínimo en la lista de counters'";
+      }
+      Toasty({
+        message: errorMessage,
+        type: "error",
+      });
+    }
+  };
+
+  const inputHandlerNombre = (value, name) => {
+    setNombreLista((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   return (
     <>
+      <ToastContainer />
       <Container className="py-5">
         <Row>
+          <Col>
+            <Input
+              placeholder={"Nombre de la lista"}
+              type={"text"}
+              name={"listName"}
+              handler={inputHandlerNombre}
+            />
+          </Col>
           <Col>
             <Button onClick={handleButtonClick}>Agregar Fila</Button>
           </Col>
@@ -258,7 +323,7 @@ const CreateListCounter = () => {
                 )}
                 {colIndex === row.cols.length - 1 && (
                   <div key={`buttons-${row.id}`}>
-                    <Button>Guardar</Button>
+                    <Button onClick={() => handleSave(row)}>Guardar</Button>
                     <Button onClick={() => handleDeleteRow(row.id)}>
                       Eliminar
                     </Button>
