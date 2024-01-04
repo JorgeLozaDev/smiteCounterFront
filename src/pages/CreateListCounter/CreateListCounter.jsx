@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
@@ -7,15 +7,26 @@ import { Col, Row, Container, Button } from "react-bootstrap";
 import CustomSelect from "../../common/CustomSelect/CustomSelect";
 import "./CreateListCounter.css";
 import Input from "../../common/CustomInput/CustomInput";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const CreateListCounter = () => {
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState([
+    {
+      id: `row-${Date.now()}`,
+      selectedGod: null,
+      filter: {
+        godName: "",
+      },
+      selectedGodsList: [],
+      cols: [
+        { id: `col-1`, size: 3 },
+        { id: `col-2`, size: 6 },
+        { id: `col-3`, size: 3 },
+      ],
+    },
+  ]);
+
   const [gods1, setGods1] = useState([]);
   const [gods2, setGods2] = useState([]);
-  const [rowCount, setRowCount] = useState(0);
-  const [filteredGods, setFilteredGods] = useState([]);
-  const [selectedGodsList, setSelectedGodsList] = useState([]);
   const navigate = useNavigate();
   const token = useSelector(userDetails);
 
@@ -35,33 +46,26 @@ const CreateListCounter = () => {
   }, [token.credentials, navigate]);
 
   const handleButtonClick = () => {
-    const newRow = {
-      id: `row-${rowCount + 1}`,
-      selectedGod: null,
-      filter: {
-        godName: "",
+    setRows((prevRows) => [
+      ...prevRows,
+      {
+        id: `row-${Date.now()}`,
+        selectedGod: null,
+        filter: {
+          godName: "",
+        },
+        selectedGodsList: [],
+        cols: [
+          { id: `col-1`, size: 3 },
+          { id: `col-2`, size: 6 },
+          { id: `col-3`, size: 3 },
+        ],
       },
-      selectedGodId: null,
-      filteredGods: [],
-      cols: [
-        { id: `col-1`, size: 3 },
-        { id: `col-2`, size: 6 },
-        { id: `col-3`, size: 3 },
-      ],
-    };
-  
-    setRowCount((prevCount) => prevCount + 1);
-    setRows((prevRows) => [...prevRows, newRow]);
+    ]);
   };
-  
-  
 
-  const handleDeleteRow = (rowId, rowIndex) => {
+  const handleDeleteRow = (rowId) => {
     setRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
-    setFilteredGods((prevFilteredGods) =>
-      prevFilteredGods.filter((_, index) => index !== rowIndex)
-    );
-    handleGodSelect(null, rowIndex);
   };
 
   const handleGodSelect = (selectedOption, rowIndex) => {
@@ -73,9 +77,6 @@ const CreateListCounter = () => {
           ? {
               ...row,
               selectedGod: selectedGodDetails,
-              selectedGodId: selectedOption,
-      
-          
             }
           : row
       )
@@ -98,23 +99,38 @@ const CreateListCounter = () => {
                 ...row.filter,
                 [name]: value,
               },
-              filteredGods: filterGods(gods2, value),
             }
           : row
       )
     );
   };
 
-  const handleGodClick = (god) => {
+  const handleGodClick = (god, rowIndex) => {
     // Verifica si el dios ya está en la lista antes de agregarlo
-    if (!selectedGodsList.some((selectedGod) => selectedGod._id === god._id)) {
-      setSelectedGodsList((prevList) => [...prevList, god]);
+    if (!rows[rowIndex].selectedGodsList.some((selectedGod) => selectedGod._id === god._id)) {
+      setRows((prevRows) =>
+        prevRows.map((row, index) =>
+          index === rowIndex
+            ? {
+                ...row,
+                selectedGodsList: [...row.selectedGodsList, god],
+              }
+            : row
+        )
+      );
     }
   };
 
-  const handleRemoveGod = (godId) => {
-    setSelectedGodsList((prevList) =>
-      prevList.filter((selectedGod) => selectedGod._id !== godId)
+  const handleRemoveGod = (godId, rowIndex) => {
+    setRows((prevRows) =>
+      prevRows.map((row, index) =>
+        index === rowIndex
+          ? {
+              ...row,
+              selectedGodsList: row.selectedGodsList.filter((selectedGod) => selectedGod._id !== godId),
+            }
+          : row
+      )
     );
   };
 
@@ -163,7 +179,7 @@ const CreateListCounter = () => {
                     <div className="selected-gods-list">
                       <h3>Dioses Seleccionados</h3>
                       <div className="selected-gods-container">
-                        {selectedGodsList.map((selectedGod) => (
+                        {row.selectedGodsList.map((selectedGod) => (
                           <div
                             className="selected-god-image"
                             key={selectedGod._id}
@@ -176,7 +192,7 @@ const CreateListCounter = () => {
                             {/* Icono "x" para quitar el dios seleccionado */}
                             <div
                               className="remove-god-icon"
-                              onClick={() => handleRemoveGod(selectedGod._id)}
+                              onClick={() => handleRemoveGod(selectedGod._id, index)}
                             >
                               &#10006;
                             </div>
@@ -205,7 +221,7 @@ const CreateListCounter = () => {
                             src={god.images.card}
                             alt={god.name}
                             className="filtered-god-image"
-                            onClick={() => handleGodClick(god)}
+                            onClick={() => handleGodClick(god, index)}
                           />
                           {/* <span className="filtered-god-name">{god.name}</span> */}
                         </div>
