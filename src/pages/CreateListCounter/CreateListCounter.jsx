@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
-import { allGodsActives } from "../../services/apiCalls";
+import { allGodsActives, saveListCounters } from "../../services/apiCalls";
 import {
   Col,
   Row,
@@ -168,12 +168,38 @@ const CreateListCounter = () => {
           godId: selectedGod._id,
         })),
       };
-      
-      Toasty({
-        message: "Se esta guardando... la lista",
-        type: "success",
-      });
+      console.log(data);
 
+      saveListCounters("user/saveListCounter", token, data)
+        .then((dat) => {
+          console.log(dat);
+          Toasty({
+            message: "Se esta guardando... la lista",
+            type: "success",
+          });
+        })
+        .catch((error) => {
+          // Manejar el error de Axios
+          if (error.response) {
+            // El servidor respondió con un código de estado diferente de 2xx
+            Toasty({
+              message: `Error: ${error.response.status} - ${error.response.data.message}`,
+              type: "error",
+            });
+          } else if (error.request) {
+            // La solicitud fue hecha, pero no se recibió una respuesta
+            Toasty({
+              message: "No se recibió respuesta del servidor",
+              type: "error",
+            });
+          } else {
+            // Algo sucedió al configurar la solicitud que desencadenó un error
+            Toasty({
+              message: "Error al configurar la solicitud",
+              type: "error",
+            });
+          }
+        });
     } else {
       let errorMessage = "Error: Los siguientes campos están vacíos:";
 
@@ -189,7 +215,8 @@ const CreateListCounter = () => {
         !Array.isArray(row.selectedGodsList) ||
         row.selectedGodsList.length === 0
       ) {
-        errorMessage += " 'tienes que seleccionar 1 dios como mínimo en la lista de counters'";
+        errorMessage +=
+          " 'tienes que seleccionar 1 dios como mínimo en la lista de counters'";
       }
       Toasty({
         message: errorMessage,

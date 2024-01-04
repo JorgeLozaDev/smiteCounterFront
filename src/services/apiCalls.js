@@ -85,3 +85,12 @@ export const UpdateGod = async (endpoint, token, data) => {
   const god = await axios.put(`${URL}${endpoint}`, data, { headers });
   return god;
 };
+
+export const saveListCounters = async (endpoint, token, data) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+ 
+  const addGod = await axios.post(`${URL}${endpoint}`, data, { headers });
+  return addGod;
+};
