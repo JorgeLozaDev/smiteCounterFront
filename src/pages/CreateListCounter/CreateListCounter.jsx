@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { userDetails } from "../userSlice";
+import { setEditedListId, userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
 import {
   allGodsActives,
@@ -20,6 +20,7 @@ import "./CreateListCounter.css";
 import Input from "../../common/CustomInput/CustomInput";
 import { Trash3Fill } from "react-bootstrap-icons";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
+import { useDispatch } from "react-redux";
 
 const CreateListCounter = () => {
   const [rows, setRows] = useState([
@@ -46,6 +47,7 @@ const CreateListCounter = () => {
   const navigate = useNavigate();
   const token = useSelector(userDetails);
   const editedListId = useSelector((state) => userDetails(state).editedListId);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (token.credentials === "") {
@@ -61,10 +63,42 @@ const CreateListCounter = () => {
         console.log(error);
       });
 
-    if (editedListId) {
-      getListCounterById("user//getList/" + editedListId.editedListId, token)
+    // Manejar cleanup al salir de la página
+    return () => {
+      // Puedes dispatch una acción que establezca editedListId en null
+      // o modificar directamente el estado del componente si estás usando useState
+      dispatch(setEditedListId(null));
+    };
+  }, [token.credentials, navigate]);
+
+  useEffect(() => {
+    if (editedListId && gods1.length > 0) {
+      getListCounterById("user/getList/" + editedListId.editedListId, token)
         .then((dat) => {
-          console.log(dat);
+          console.log(dat.data.list);
+          setNombreLista({ listName: dat.data.list.listName });
+
+          // Crear filas para cada maingod en la lista
+          const newRows = dat.data.list.mainGods.map((mainGod, index) => {
+            const newRowId = `row-${mainGod.godId}-${index}`;
+            const selectedGod = gods1.find((god) => god._id === mainGod.godId);
+            const selectedGodsList = mainGod.counterpicks.map((counterpick) =>
+              gods1.find((god) => god._id === counterpick.godId)
+            );
+
+            return {
+              id: newRowId,
+              selectedGod,
+              filter: { godName: "" },
+              selectedGodsList,
+              cols: [
+                { id: `col-1`, size: 3 },
+                { id: `col-2`, size: 7 },
+                { id: `col-3`, size: 2 },
+              ],
+            };
+          });
+          setRows(newRows);
         })
         .catch((error) => {
           // Manejar el error de Axios
@@ -88,9 +122,8 @@ const CreateListCounter = () => {
             });
           }
         });
-      console.log(editedListId);
     }
-  }, [token.credentials, navigate]);
+  }, [editedListId, gods1, token]);
 
   const handleButtonClick = () => {
     setRows((prevRows) => [
@@ -278,6 +311,7 @@ const CreateListCounter = () => {
               type={"text"}
               name={"listName"}
               handler={inputHandlerNombre}
+              value={nombreLista.listName}
             />
           </Col>
           <Col>
