@@ -16,6 +16,7 @@ import "./CreateListCounter.css";
 import Input from "../../common/CustomInput/CustomInput";
 import { Trash3Fill } from "react-bootstrap-icons";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
+import { useDispatch } from "react-redux";
 
 const CreateListCounter = () => {
   const [rows, setRows] = useState([
@@ -41,6 +42,8 @@ const CreateListCounter = () => {
   const [gods2, setGods2] = useState([]);
   const navigate = useNavigate();
   const token = useSelector(userDetails);
+  // const dispatch = useDispatch();
+  const editedListId = useSelector((state) => userDetails(state).editedListId);
 
   useEffect(() => {
     if (token.credentials === "") {
@@ -55,6 +58,10 @@ const CreateListCounter = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    if (editedListId) {
+      console.log(editedListId);
+    }
   }, [token.credentials, navigate]);
 
   const handleButtonClick = () => {
