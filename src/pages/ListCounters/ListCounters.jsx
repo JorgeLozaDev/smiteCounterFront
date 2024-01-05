@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { userDetails } from "../userSlice";
+import { setEditedListId, userDetails } from "../userSlice";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
@@ -86,9 +86,8 @@ const ListCounters = () => {
   };
 
   const handleEdit = (id) => {
-    console.log(id);
-    // dispatch(saveId({ id: id }));
-    // navigate("/editGod");
+    dispatch(setEditedListId({ editedListId: id }));
+    navigate("/createList");
   };
 
   return (
