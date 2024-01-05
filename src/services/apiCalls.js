@@ -81,26 +81,33 @@ export const UpdateGod = async (endpoint, token, data) => {
   const headers = {
     Authorization: "Bearer " + token.credentials,
   };
-  
+
   const god = await axios.put(`${URL}${endpoint}`, data, { headers });
   return god;
 };
-
 
 export const getAllListCounters = async (endpoint, token) => {
   const headers = {
     Authorization: "Bearer " + token.credentials,
   };
-  const allGods = await axios.get(`${URL}${endpoint}`, { headers });
-  return allGods;
+  const allLists = await axios.get(`${URL}${endpoint}`, { headers });
+  return allLists;
 };
-
 
 export const saveListCounters = async (endpoint, token, data) => {
   const headers = {
     Authorization: "Bearer " + token.credentials,
   };
- 
-  const addGod = await axios.post(`${URL}${endpoint}`, data, { headers });
-  return addGod;
+
+  const saveList = await axios.post(`${URL}${endpoint}`, data, { headers });
+  return saveList;
+};
+
+export const deleteListCounters = async (endpoint, token) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+
+  const deleteList = await axios.delete(`${URL}${endpoint}`, { headers });
+  return deleteList;
 };

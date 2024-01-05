@@ -3,9 +3,12 @@ import { userDetails } from "../userSlice";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
-import { getAllListCounters } from "../../services/apiCalls";
+import {
+  deleteListCounters,
+  getAllListCounters,
+} from "../../services/apiCalls";
 import { Button, Table } from "react-bootstrap";
-import {  Pencil, Trash } from "react-bootstrap-icons";
+import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
 
 const ListCounters = () => {
@@ -20,7 +23,6 @@ const ListCounters = () => {
     }
     getAllListCounters("user/getListCounter", token)
       .then((result) => {
-       
         setList(result.data);
       })
       .catch((error) => {
@@ -48,22 +50,39 @@ const ListCounters = () => {
   }, []);
 
   const handleAction = (id) => {
-    // DeleteGodLogic("gods/updateGodActive/" + id, token, isActive)
-    //   .then((dat) => {
-    //     setGods((prevGods) => {
-    //       return prevGods.map((god) =>
-    //         god._id === id ? { ...god, isActive } : god
-    //       );
-    //     });
-    //     Toasty({
-    //       message: `Se ha actualizado el dios correctamente`,
-    //       type: "success",
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    console.log(id);
+    deleteListCounters("user/deleteListCounter/" + id, token)
+      .then((dat) => {
+        // Actualiza la lista después de eliminar
+        setList((prevLists) =>
+          prevLists.filter((lista) => lista.listId !== id)
+        );
+        Toasty({
+          message: `Se ha actualizado el dios correctamente`,
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        // Manejar el error de Axios
+        if (error.response) {
+          // El servidor respondió con un código de estado diferente de 2xx
+          Toasty({
+            message: `Error: ${error.response.status} - ${error.response.data.message}`,
+            type: "error",
+          });
+        } else if (error.request) {
+          // La solicitud fue hecha, pero no se recibió una respuesta
+          Toasty({
+            message: "No se recibió respuesta del servidor",
+            type: "error",
+          });
+        } else {
+          // Algo sucedió al configurar la solicitud que desencadenó un error
+          Toasty({
+            message: "Error al configurar la solicitud",
+            type: "error",
+          });
+        }
+      });
   };
 
   const handleEdit = (id) => {
@@ -90,7 +109,7 @@ const ListCounters = () => {
                 <td>
                   <Button
                     variant="info"
-                    onClick={() => handleEdit(lista._id)}
+                    onClick={() => handleEdit(lista.listId)}
                     style={{ margin: "5px" }}
                   >
                     <Pencil /> Editar
@@ -98,7 +117,7 @@ const ListCounters = () => {
 
                   <Button
                     variant="danger"
-                    onClick={() => handleAction(lista._id)}
+                    onClick={() => handleAction(lista.listId)}
                     style={{ margin: "5px" }}
                   >
                     <Trash /> Eliminar
