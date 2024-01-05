@@ -4,6 +4,7 @@ import { setEditedListId, userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
 import {
   allGodsActives,
+  deleteCountersGod,
   getListCounterById,
   saveListCounters,
 } from "../../services/apiCalls";
@@ -146,6 +147,39 @@ const CreateListCounter = () => {
 
   const handleDeleteRow = (rowId) => {
     setRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
+    // 2. Obtener el godId de la fila que estás eliminando
+    const godIdToDelete = rowId.split("-")[1]; // Extrayendo godId de la clave
+    console.log(godIdToDelete);
+    deleteCountersGod("user/deleteCounterGod", token, godIdToDelete)
+      .then((d) => {
+        console.log(d);
+        Toasty({
+          message: "Se ha eliminado el counter de la lista",
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        // Manejar el error de Axios
+        if (error.response) {
+          // El servidor respondió con un código de estado diferente de 2xx
+          Toasty({
+            message: `Error: ${error.response.status} - ${error.response.data.message}`,
+            type: "error",
+          });
+        } else if (error.request) {
+          // La solicitud fue hecha, pero no se recibió una respuesta
+          Toasty({
+            message: "No se recibió respuesta del servidor",
+            type: "error",
+          });
+        } else {
+          // Algo sucedió al configurar la solicitud que desencadenó un error
+          Toasty({
+            message: "Error al configurar la solicitud",
+            type: "error",
+          });
+        }
+      });
   };
 
   const handleGodSelect = (selectedOption, rowIndex) => {
