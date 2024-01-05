@@ -20,7 +20,7 @@ const ListCounters = () => {
     }
     getAllListCounters("user/getListCounter", token)
       .then((result) => {
-        // console.log(result.data);
+       
         setList(result.data);
       })
       .catch((error) => {
@@ -85,7 +85,7 @@ const ListCounters = () => {
           </thead>
           <tbody>
             {list.map((lista) => (
-              <tr key={lista._id}>
+              <tr key={lista.listId}>
                 <td>{lista.listName}</td>
                 <td>
                   <Button
