@@ -111,3 +111,12 @@ export const deleteListCounters = async (endpoint, token) => {
   const deleteList = await axios.delete(`${URL}${endpoint}`, { headers });
   return deleteList;
 };
+
+
+export const getListCounterById = async (endpoint, token) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+  const allLists = await axios.get(`${URL}${endpoint}`, { headers });
+  return allLists;
+};

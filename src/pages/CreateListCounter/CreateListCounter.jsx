@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
-import { allGodsActives, saveListCounters } from "../../services/apiCalls";
+import {
+  allGodsActives,
+  getListCounterById,
+  saveListCounters,
+} from "../../services/apiCalls";
 import {
   Col,
   Row,
@@ -16,7 +20,6 @@ import "./CreateListCounter.css";
 import Input from "../../common/CustomInput/CustomInput";
 import { Trash3Fill } from "react-bootstrap-icons";
 import { Toasty, ToastContainer } from "../../common/CustomToasty/CustomToasty";
-import { useDispatch } from "react-redux";
 
 const CreateListCounter = () => {
   const [rows, setRows] = useState([
@@ -42,7 +45,6 @@ const CreateListCounter = () => {
   const [gods2, setGods2] = useState([]);
   const navigate = useNavigate();
   const token = useSelector(userDetails);
-  // const dispatch = useDispatch();
   const editedListId = useSelector((state) => userDetails(state).editedListId);
 
   useEffect(() => {
@@ -60,6 +62,32 @@ const CreateListCounter = () => {
       });
 
     if (editedListId) {
+      getListCounterById("user//getList/" + editedListId.editedListId, token)
+        .then((dat) => {
+          console.log(dat);
+        })
+        .catch((error) => {
+          // Manejar el error de Axios
+          if (error.response) {
+            // El servidor respondió con un código de estado diferente de 2xx
+            Toasty({
+              message: `Error: ${error.response.status} - ${error.response.data.message}`,
+              type: "error",
+            });
+          } else if (error.request) {
+            // La solicitud fue hecha, pero no se recibió una respuesta
+            Toasty({
+              message: "No se recibió respuesta del servidor",
+              type: "error",
+            });
+          } else {
+            // Algo sucedió al configurar la solicitud que desencadenó un error
+            Toasty({
+              message: "Error al configurar la solicitud",
+              type: "error",
+            });
+          }
+        });
       console.log(editedListId);
     }
   }, [token.credentials, navigate]);
@@ -238,6 +266,7 @@ const CreateListCounter = () => {
       [name]: value,
     }));
   };
+
   return (
     <>
       <ToastContainer />
