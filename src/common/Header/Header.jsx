@@ -41,7 +41,7 @@ export const Header = () => {
             <Nav className="me-auto"></Nav>
             <Nav>
               <Nav.Link href="/gods">Dioses</Nav.Link>
-              <Nav.Link href="/counter">Counters</Nav.Link>
+              <Nav.Link href="/counters">Counters</Nav.Link>
               {/* <Nav.Link href="/contact">contacto</Nav.Link> */}
             </Nav>
 

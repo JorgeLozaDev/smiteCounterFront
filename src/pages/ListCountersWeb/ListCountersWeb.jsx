@@ -1,8 +1,13 @@
+import { Container } from "react-bootstrap"
 
 
 const ListCountersWeb = () => {
   return (
-    <div>ListCountersWeb</div>
+    <>
+    <Container className="banner ">
+
+    </Container>
+    </>
   )
 }
 
