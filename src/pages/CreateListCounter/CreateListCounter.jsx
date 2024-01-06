@@ -66,8 +66,6 @@ const CreateListCounter = () => {
 
     // Manejar cleanup al salir de la página
     return () => {
-      // Puedes dispatch una acción que establezca editedListId en null
-      // o modificar directamente el estado del componente si estás usando useState
       dispatch(setEditedListId(null));
     };
   }, [token.credentials, navigate]);
@@ -270,11 +268,11 @@ const CreateListCounter = () => {
           godId: selectedGod._id,
         })),
       };
-      console.log(data);
+      // console.log(data);
 
       saveListCounters("user/saveListCounter", token, data)
         .then((dat) => {
-          console.log(dat);
+          // console.log(dat);
           Toasty({
             message: "Se esta guardando... la lista",
             type: "success",
