@@ -42,7 +42,7 @@ export const Header = () => {
             <Nav>
               <Nav.Link href="/gods">Dioses</Nav.Link>
               <Nav.Link href="/counter">Counters</Nav.Link>
-              <Nav.Link href="/contact">contacto</Nav.Link>
+              {/* <Nav.Link href="/contact">contacto</Nav.Link> */}
             </Nav>
 
             <Nav>
