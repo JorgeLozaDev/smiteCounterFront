@@ -3,58 +3,52 @@ import Carousel from "../../common/CarouselHome/CarouselHome";
 import { CustomContentBlock } from "../../common/CustomContentBlock/CustomContentBlock";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { CustomCTA } from "../../common/CustomtCTA/CustomCTA";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const [dataSubcribeEmail, setDataSubcribeEmail] = useState({
     emailSub: "",
   });
+  const navigate = useNavigate();
   const commonBackground = "url('home/bg-carousel.png')";
   const dataCommonBlock = [
     {
-      title: "asdsad",
-      text: "lorem kafkjaf kla faskfjhaskf aksdfh aklsfjhsakf asdfasf halsk jfsak fkahsdfkjahs fklhasdkfhasldfs da djfk asdkf",
+      title: "Bienvenido",
+      text: "En nuestra web encontraras toda la información que necesitas de SMITEGAME",
       commonImage1: "gods/Amaterasu/Amaterasu5.png",
       commonImage2: "gods/Ah_Puch/Ah_Puch3.png",
-      button: {
-        text: "Ver más",
-        link: "/slide1",
-      },
     },
   ];
   const carouselItems = [
     {
       image: "",
       imagenContent: "gods/Ah_Muzen_Cab/Ah_Muzen_Cab1.png",
-      title: "Bienvenido a nuestra web",
-      description:
-        "Espermos que te podamos ayudar en tu busqueda de información",
-      button: {
-        text: "Ver más",
-        link: "/slide1",
-      },
+      title: "SMITE COUNTER",
+      description: "Te ayudaremos a conquistar el olimpo",
     },
-    {
-      image: "",
-      imagenContent: "gods/Aquiles/Aquiles1.png",
-      title: "Bienvenido a nuestra web",
-      description:
-        "Espermos que te podamos ayudar en tu busqueda de información",
-      button: {
-        text: "Ver más",
-        link: "/slide1",
-      },
-    },
-    {
-      image: "",
-      imagenContent: "gods/Agni/Agni1.png",
-      title: "Bienvenido a nuestra web",
-      description:
-        "Espermos que te podamos ayudar en tu busqueda de información",
-      button: {
-        text: "Ver más",
-        link: "/slide1",
-      },
-    },
+    // ,
+    // {
+    //   image: "",
+    //   imagenContent: "gods/Aquiles/Aquiles1.png",
+    //   title: "Consulta toda la información de los dioses ",
+    //   description:
+    //     "Descubre al detalle todas las habilidades y datos",
+    //   button: {
+    //     text: "Ver más",
+    //     link: "/gods",
+    //   },
+    // },
+    // {
+    //   image: "",
+    //   imagenContent: "gods/Agni/Agni1.png",
+    //   title: "Descubre nuestra lista de counters",
+    //   description:
+    //     "Con esta lista podras afrontar cualquier partida",
+    //   button: {
+    //     text: "Ver más",
+    //     link: "/counters",
+    //   },
+    // },
   ];
 
   const inputHandler = (value, name) => {
@@ -65,13 +59,13 @@ export const Home = () => {
   };
   const customCTA = [
     {
-      title: "asdsad",
-      text: "lorem kafkjaf kla faskfjhaskf aksdfh aklsfjhsakf asdfasf halsk jfsak fkahsdfkjahs fklhasdkfhasldfs da djfk asdkf",
+      title: "Bienvenido",
+      text: "En nuestra web encontraras toda la información que necesitas de SMITEGAME",
       bgImage: "gods/Amaterasu/Amaterasu5.png",
       button: {
         text: "Ver más",
         link: "/slide1",
-        type:"",
+        type: "",
       },
       // input: {
       //   placeholder: "Introduce tu email",
@@ -94,13 +88,9 @@ export const Home = () => {
       <Container className="caja">
         <Row className="align-items-center">
           <Col md={6}>
-            <h2>24/7 access to full service customer support</h2>
-            <p>
-              We invest more resources than any other platform in making sure
-              great support from real people is a click away, whenever you need
-              it.
-            </p>
-            <Button>Start</Button>
+            <h2>Consulta toda la información de los dioses</h2>
+            <p>Descubre al detalle todas las habilidades y datos</p>
+            <Button onClick={() => (navigate("/gods"))}>Descubrir</Button>
           </Col>
           <Col md={6}>
             <p className="text-center">
@@ -118,18 +108,14 @@ export const Home = () => {
             </p>
           </Col>
           <Col md={6}>
-            <h2>24/7 access to full service customer support</h2>
-            <p>
-              We invest more resources than any other platform in making sure
-              great support from real people is a click away, whenever you need
-              it.
-            </p>
-            <Button>Start</Button>
+            <h2>Si necesitas ayuda o soporte tecnico</h2>
+            <p>No dudes en ponerte en contacto con nosotros</p>
+            <Button>¡Escribenos!</Button>
           </Col>
         </Row>
       </Container>
 
-      <CustomCTA data={customCTA} />
+      {/* <CustomCTA data={customCTA} /> */}
     </>
   );
 };

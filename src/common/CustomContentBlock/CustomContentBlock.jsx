@@ -16,9 +16,11 @@ export const CustomContentBlock = ({ data }) => {
           <Col md={4} className="cajaTxtContentBlock">
             <h2>{item.title}</h2>
             <p>{item.text}</p>
+            {item.button && (
             <a href={item.button.link} className="btn gradient">
               {item.button.text}
             </a>
+            )}
           </Col>
         </Row>
       ))}
