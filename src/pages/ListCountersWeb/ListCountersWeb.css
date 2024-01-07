@@ -1,12 +1,20 @@
 .gods-container-counters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
 }
-.gods-container-counters img, .imgPrincipal {
-    border-radius: var(--border-rad-big);
-    width: 7em;
+.gods-container-counters img,
+.imgPrincipal {
+  border-radius: var(--border-rad-big);
+  width: 7em;
 }
-.imgVS{
-    max-width: 6em;
+.imgVS {
+  max-width: 6em;
+}
+
+.cajaFiltros > div > div {
+    margin-bottom: 0 !important;
+}
+.cajaFiltros  {
+    padding: 1em ;
 }
