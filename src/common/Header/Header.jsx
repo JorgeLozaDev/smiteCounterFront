@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { PersonCircle, PersonWorkspace } from "react-bootstrap-icons";
+import "./Header.css"
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ export const Header = () => {
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
         <Container>
-          <Navbar.Brand href="/">logo</Navbar.Brand>
+          <Navbar.Brand href="/"><img src="home/smite-logo.png" className="img-fluid logo"></img></Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
