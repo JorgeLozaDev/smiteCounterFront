@@ -127,7 +127,12 @@ export const deleteCountersGod = async (endpoint, token, godId) => {
   const data = {
     godId: godId,
   };
-  console.log(godId);
+
   const deleteList = await axios.delete(`${URL}${endpoint}`, { headers, data });
   return deleteList;
+};
+
+export const allPrincipalListCounters = async (endpoint) => {
+  const listCounter = await axios.get(`${URL}${endpoint}`);
+  return listCounter;
 };

@@ -35,7 +35,7 @@ export const Home = () => {
     },
     {
       image: "",
-      imagenContent: "gods/Achilles/Achilles1.png",
+      imagenContent: "gods/Aquiles/Aquiles1.png",
       title: "Bienvenido a nuestra web",
       description:
         "Espermos que te podamos ayudar en tu busqueda de información",

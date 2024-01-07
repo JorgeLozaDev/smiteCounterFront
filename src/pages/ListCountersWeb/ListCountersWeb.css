@@ -1,0 +1,12 @@
+.gods-container-counters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+.gods-container-counters img, .imgPrincipal {
+    border-radius: var(--border-rad-big);
+    width: 7em;
+}
+.imgVS{
+    max-width: 6em;
+}
