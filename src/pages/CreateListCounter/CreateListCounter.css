@@ -78,3 +78,7 @@
 .selected-god-image:hover .selected-god-name {
   opacity: 1;
 }
+
+.actionBtn button{
+  margin: .51em;
+}

@@ -451,7 +451,7 @@ const CreateListCounter = () => {
                   </div>
                 )}
                 {colIndex === row.cols.length - 1 && (
-                  <div key={`buttons-${row.id}`}>
+                  <div key={`buttons-${row.id}`} className="actionBtn">
                     <Button onClick={() => handleSave(row)}>Guardar</Button>
                     <Button onClick={() => handleDeleteRow(row.id)}>
                       Eliminar
