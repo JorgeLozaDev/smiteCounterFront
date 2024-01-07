@@ -1,3 +1,10 @@
 .footer{
     color: var(--blanco);
 }
+.logoFooter{
+    max-width: 15em;
+}
+
+.footer a{
+    color: var(--blanco);
+}

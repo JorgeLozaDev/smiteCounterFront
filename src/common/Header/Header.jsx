@@ -36,7 +36,7 @@ export const Header = () => {
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
         <Container>
-          <Navbar.Brand href="/"><img src="home/smite-logo.png" className="img-fluid logo"></img></Navbar.Brand>
+          <Navbar.Brand href="/"><img src="home/smite-logo.png" className=" logo"></img></Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
