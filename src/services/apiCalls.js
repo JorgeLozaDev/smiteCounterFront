@@ -20,6 +20,14 @@ export const profileUser = async (endpoint, token) => {
   });
   return dataUser;
 };
+export const getAllUsers = async (endpoint, token) => {
+  const dataUser = await axios.get(`${URL}${endpoint}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return dataUser;
+};
 
 export const updateProfile = async (endpoint, token, data) => {
   const info = {
