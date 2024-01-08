@@ -43,6 +43,16 @@ export const updateProfile = async (endpoint, token, data) => {
   return updateUser;
 };
 
+export const DeleteUserLogic = async (endpoint, token, data) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+  const dat = {
+    isActive: data,
+  };
+  const user = await axios.put(`${URL}${endpoint}`, dat, { headers });
+  return user;
+};
 // ========== GODS ==========
 
 export const allGodsActives = async (endpoint) => {

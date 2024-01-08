@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
 import { ToastContainer, Toasty } from "../../common/CustomToasty/CustomToasty";
-import { getAllUsers } from "../../services/apiCalls";
+import { DeleteUserLogic, getAllUsers } from "../../services/apiCalls";
 
 const ListUsersAdmin = () => {
   const navigate = useNavigate();
@@ -21,7 +21,6 @@ const ListUsersAdmin = () => {
     if (decode.role != "admin") {
       navigate("/");
     }
-    console.log(token)
 
     getAllUsers("user/getUsers", token.credentials)
       .then((data) => {
@@ -33,23 +32,23 @@ const ListUsersAdmin = () => {
       });
   }, []);
 
-  const handleAction = (id) => {
-    // DeleteGodLogic("gods/updateGodActive/" + id, token, isActive)
-    //   .then((dat) => {
-    //     setGods((prevGods) => {
-    //       return prevGods.map((god) =>
-    //         god._id === id ? { ...god, isActive } : god
-    //       );
-    //     });
+  const handleAction = (id, isActive) => {
+    DeleteUserLogic("user/updateUserActive/" + id, token, isActive)
+      .then((dat) => {
+        setUsers((prevGods) => {
+          return prevGods.map((god) =>
+            god._id === id ? { ...god, isActive } : god
+          );
+        });
 
-    //     Toasty({
-    //       message: `Se ha actualizado el dios correctamente`,
-    //       type: "success",
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+        Toasty({
+          message: `Se ha actualizado el dios correctamente`,
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleEdit = (id) => {
@@ -58,7 +57,7 @@ const ListUsersAdmin = () => {
   };
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <Container className="py-5">
         <Row>
           <Col>
