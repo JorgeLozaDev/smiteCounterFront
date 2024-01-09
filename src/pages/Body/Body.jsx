@@ -29,7 +29,7 @@ export const Body = () => {
       <Route path="/counters/" element={<ListCountersWeb />} />
       <Route path="/getUsers/" element={<ListUsersAdmin />} />
       <Route path="/editUser/" element={<UserEditAdmin />} />
-      <Route path="*" element={<Navigate to="/" />} />
+      {/* <Route path="*" element={<Navigate to="/" />} /> */}
     </Routes>
   );
 };
