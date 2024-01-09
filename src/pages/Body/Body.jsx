@@ -16,7 +16,6 @@ import UserEditAdmin from "../UserEditAdmin/UserEditAdmin";
 export const Body = () => {
   return (
     <Routes>
-      <Route path="*" element={<Navigate to="/" />} />
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/singin" element={<SingIn />} />
@@ -30,6 +29,7 @@ export const Body = () => {
       <Route path="/counters/" element={<ListCountersWeb />} />
       <Route path="/getUsers/" element={<ListUsersAdmin />} />
       <Route path="/editUser/" element={<UserEditAdmin />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
