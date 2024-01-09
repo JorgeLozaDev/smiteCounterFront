@@ -3,15 +3,17 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { CheckLg, Pencil, Trash } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-import { userDetails } from "../userSlice";
+import { setEditUserId, userDetails } from "../userSlice";
 import { useSelector } from "react-redux";
 import { ToastContainer, Toasty } from "../../common/CustomToasty/CustomToasty";
 import { DeleteUserLogic, getAllUsers } from "../../services/apiCalls";
+import { useDispatch } from "react-redux";
 
 const ListUsersAdmin = () => {
   const navigate = useNavigate();
   const token = useSelector(userDetails);
   const [users, setUsers] = useState([]);
+  const dispatch = useDispatch(userDetails);
 
   useEffect(() => {
     if (token.credentials === "") {
@@ -52,8 +54,9 @@ const ListUsersAdmin = () => {
   };
 
   const handleEdit = (id) => {
-    // dispatch(saveId({ id: id }));
-    navigate("/editGod");
+    dispatch(setEditUserId({ editUserId: id }));
+    
+    navigate("/editUser");
   };
   return (
     <>

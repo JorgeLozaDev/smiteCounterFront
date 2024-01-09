@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const URL = "http://localhost:3000/";
+// const URL = "http://localhost:3000/";
+const URL = "https://smite-counter-back.vercel.app/";
 
 export const singInUser = async (endpoint, data) => {
   const inUser = await axios.post(`${URL}${endpoint}`, data);
@@ -52,6 +53,14 @@ export const DeleteUserLogic = async (endpoint, token, data) => {
   };
   const user = await axios.put(`${URL}${endpoint}`, dat, { headers });
   return user;
+};
+
+export const usersDetails = async (endpoint, id, token) => {
+  const headers = {
+    Authorization: "Bearer " + token.credentials,
+  };
+  const userDetails = await axios.get(`${URL}${endpoint}${id}`, { headers });
+  return userDetails;
 };
 // ========== GODS ==========
 
